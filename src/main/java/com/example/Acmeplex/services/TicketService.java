@@ -36,7 +36,7 @@ public class TicketService {
         Optional<Show> showOpt = showRepository.findById(ticketRequest.getShowId());
 
         if (showOpt.isEmpty()) {
-            throw new ShowDoesNotExists();
+            throw new ShowDoesNotExist();
         }
 
         Optional<User> userOpt = userRepository.findById(ticketRequest.getUserId());
