@@ -6,11 +6,11 @@ server:
 
 spring:
   application:
-    name: demo
+    name: Acmeplex
   datasource:
-    url: jdbc:mysql://localhost:3306/Acmeplex?useSSL=false&serverTimezone=UTC
-    username: root
-    password: root
+    url: jdbc:mysql://localhost:3306/Acmeplex?useSSL=false&serverTimezone=UTC?createTableIfNotExists=true
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
   jpa:
     hibernate:
       ddl-auto: update
@@ -22,7 +22,7 @@ spring:
 
   mail:
     host: localhost
-    port: 3306
+    port: 5000
     username: root
     password: root
 
