@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -45,7 +46,6 @@ public class UserController {
 	// }
 
 
-
 	
 	@PostMapping("/addNew")
 	public ResponseEntity<AuthResponse> addNewUser(@RequestBody UserRequest userEntryDto) {
@@ -56,6 +56,25 @@ public class UserController {
 			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
 		}
 	}
+
+
+    @PostMapping("/login")
+    public ResponseEntity<AuthResponse> login(@RequestBody AuthRequest authRequest) {
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword()));
+
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        UserInfoUserDetails userDetails = (UserInfoUserDetails) authentication.getPrincipal();
+        User user = userDetails.getUser();
+        String token = jwtService.generateToken(user.getEmail());
+
+        UserResponse userResponse = UserConvertor.userToUserDto(user);
+        AuthResponse authResponse = new AuthResponse(token, userResponse);
+
+        return ResponseEntity.ok(authResponse);
+    }
+
 
     // @PostMapping("/getToken")
 	// public String authenticateAndGetToken(@RequestBody AuthRequest authRequest) {
@@ -69,24 +88,6 @@ public class UserController {
 	// 	throw new UsernameNotFoundException("invalid user details.");
 	// }
 
-
-// @PostMapping("/getToken")
-// public ResponseEntity<AuthResponse> authenticateAndGetToken(@RequestBody AuthRequest authRequest) {
-//     Authentication authentication = authenticationManager.authenticate(
-//             new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword()));
-
-//     if (authentication.isAuthenticated()) {
-//         User user = (User) authentication.getPrincipal();  // Assuming `User` implements `UserDetails`
-//         String token = jwtService.generateToken(authRequest.getUsername());
-
-//         UserResponse userResponse = UserConvertor.userToUserDto(user);
-//         AuthResponse authResponse = new AuthResponse(token, userResponse);
-
-//         return ResponseEntity.ok(authResponse);
-//     }
-
-//     throw new UsernameNotFoundException("Invalid user details.");
-// }
 
 @PostMapping("/getToken")
 public ResponseEntity<AuthResponse> authenticateAndGetToken(@RequestBody AuthRequest authRequest) {

@@ -34,12 +34,12 @@ public class SecurityConfiguration {
     SecurityFilterChain securityFilterChain(HttpSecurity http, JwtAuthFilter authFilter) throws Exception {
         return http.csrf(c -> c.disable())
                 .authorizeHttpRequests(req ->
-                    req.requestMatchers("/user/**").permitAll()
+                    req.requestMatchers("user/auth/**").permitAll()
                     .requestMatchers("/movie/**").hasAnyAuthority("ROLE_ADMIN")
                     .requestMatchers("/show/**").hasAnyAuthority("ROLE_ADMIN")
                     .requestMatchers("/theater/**").hasAnyAuthority("ROLE_ADMIN")
                     .requestMatchers("/ticket/**").hasAnyAuthority("ROLE_USER")
-					.requestMatchers("/addNew").permitAll()
+					.requestMatchers("/user/**").permitAll()
 					.requestMatchers("/error").permitAll()
 					.requestMatchers("/user/getToken").permitAll()
                     .anyRequest().authenticated())
@@ -49,7 +49,6 @@ public class SecurityConfiguration {
                 .build();
     }
 
-	
 	@Bean
 	AuthenticationProvider authenticationProvider() {
 		DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
