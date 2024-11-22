@@ -9,9 +9,11 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -37,18 +39,8 @@ public class UserController {
 	@Autowired
 	private JWTService jwtService;
 
-	// @PostMapping("/addNew")
-	// public ResponseEntity<String> addNewUser(@RequestBody UserRequest userEntryDto) {
-	// 	try {
-	// 		String result = userService.addUser(userEntryDto);
-	// 		return new ResponseEntity<>(result, HttpStatus.CREATED);
-	// 	} catch (Exception e) {
-	// 		return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-	// 	}
-	// }
 
-
-	
+	//Register a user
 	@PostMapping("/addNew")
 	public ResponseEntity<AuthResponse> addNewUser(@RequestBody UserRequest userEntryDto) {
 		try {
@@ -59,7 +51,7 @@ public class UserController {
 		}
 	}
 
-
+	//Login 
     @PostMapping("/login")
     public ResponseEntity<AuthResponse> login(@RequestBody AuthRequest authRequest) {
         Authentication authentication = authenticationManager.authenticate(
@@ -77,18 +69,6 @@ public class UserController {
         return ResponseEntity.ok(authResponse);
     }
 
-
-	// @GetMapping("/profile")
-	// public ResponseEntity<UserResponse> viewProfile(Authentication authentication) {
-	// 	String email = authentication.getName(); // Get the authenticated user's email
-	// 	try {
-	// 		UserResponse userResponse = userService.getUserByEmail(email);
-	// 		return new ResponseEntity<>(userResponse, HttpStatus.OK);
-	// 	} catch (Exception e) {
-	// 		return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-	// 	}
-	// }
-
     // View Profile by ID
     @GetMapping("/{id}/profile")
     public ResponseEntity<UserResponse> viewUserProfile(@PathVariable Integer id) {
@@ -100,8 +80,30 @@ public class UserController {
         }
     }
 
-@PostMapping("/getToken")
-public ResponseEntity<AuthResponse> authenticateAndGetToken(@RequestBody AuthRequest authRequest) {
+	//Update user
+    @PutMapping("/{id}")
+    public ResponseEntity<UserResponse> updateUserProfile(@PathVariable Integer id, @RequestBody UserRequest userRequest) {
+        try {
+            UserResponse updatedUser = userService.updateUser(id, userRequest);
+            return new ResponseEntity<>(updatedUser, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+	//Delete user
+    @DeleteMapping("/{id}")
+    public ResponseEntity<UserResponse> deleteUserProfile(@PathVariable Integer id) {
+        try {
+			userService.deleteUser(id); 
+            return new ResponseEntity<>(null, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
+    }
+	
+	@PostMapping("/getToken")
+	public ResponseEntity<AuthResponse> authenticateAndGetToken(@RequestBody AuthRequest authRequest) {
     Authentication authentication = authenticationManager.authenticate(
             new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword()));
 
