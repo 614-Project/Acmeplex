@@ -46,4 +46,17 @@ public class UserService {
 		return new AuthResponse(token, userResponse);
 	}
 
+	// public UserResponse getUserById(Long id) {
+	// 	User user = userRepository.findById(id)
+	// 			.orElseThrow(() -> new RuntimeException("User not found"));
+	// 	return UserConvertor.userToUserDto(user);
+	// }
+	
+
+	public UserResponse getUserById(Integer id) {
+		User user = userRepository.findById(id)
+				.orElseThrow(() -> new RuntimeException("User not found"));
+		return UserConvertor.userToUserDto(user);
+	}
+	
 }

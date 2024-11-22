@@ -52,17 +52,6 @@ public class User {
     @Column(nullable = false)
     private String password;
     
-    // Boolean to indicate if the user is a Registered User (RU)
- 
-    // Relationships
-
-    // @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-
-    // private List<Reservation> reservations = new ArrayList<>(); // A user can create multiple reservations
- 
-    // @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-
-    // private Membership membership; // A Registered User (RU) can have an annual membership
 
 }
 
