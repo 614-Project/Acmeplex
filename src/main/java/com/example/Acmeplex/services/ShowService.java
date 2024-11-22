@@ -6,99 +6,125 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.jts.movie.convertor.ShowConvertor;
-import com.jts.movie.entities.Movie;
-import com.jts.movie.entities.Show;
-import com.jts.movie.entities.ShowSeat;
-import com.jts.movie.entities.Theater;
-import com.jts.movie.entities.TheaterSeat;
-import com.jts.movie.enums.SeatType;
-import com.jts.movie.exceptions.MovieDoesNotExists;
-import com.jts.movie.exceptions.ShowDoesNotExists;
-import com.jts.movie.exceptions.TheaterDoesNotExists;
-import com.jts.movie.repositories.MovieRepository;
-import com.jts.movie.repositories.ShowRepository;
-import com.jts.movie.repositories.TheaterRepository;
-import com.jts.movie.request.ShowRequest;
-import com.jts.movie.request.ShowSeatRequest;
+// import com.example.Acmeplex.convertor.ShowConvertor;
+// import com.example.Acmeplex.entities.Movie;
+import com.example.Acmeplex.entities.Show;
+// import com.example.Acmeplex.entities.ShowSeat;
+// import com.example.Acmeplex.entities.Theater;
+// import com.example.Acmeplex.entities.TheaterSeat;
+// import com.example.Acmeplex.enums.SeatType;
+// import com.example.Acmeplex.exceptions.MovieDoesNotExists;
+// import com.example.Acmeplex.exceptions.ShowDoesNotExist;
+// import com.example.Acmeplex.exceptions.ShowDoesNotExists;
+// import com.example.Acmeplex.exceptions.TheaterDoesNotExists;
+// import com.example.Acmeplex.repositories.MovieRepository;
+import com.example.Acmeplex.repositiories.ShowRepository; // repositories incorrectly spelled....remember to update name on all files.
+// import com.example.Acmeplex.repositories.TheaterRepository;
+// import com.example.Acmeplex.request.ShowRequest;
+// import com.example.Acmeplex.request.ShowSeatRequest;
 
 @Service
 public class ShowService {
 
-    @Autowired
-    private MovieRepository movieRepository;
+    // @Autowired
+    // private MovieRepository movieRepository;
 
-    @Autowired
-    private TheaterRepository theaterRepository;
+    // @Autowired
+    // private TheaterRepository theaterRepository;
 
     @Autowired
     private ShowRepository showRepository;
 
-    public String addShow(ShowRequest showRequest) {
-        Show show = ShowConvertor.showDtoToShow(showRequest);
-
-        Optional<Movie> movieOpt = movieRepository.findById(showRequest.getMovieId());
-
-        if (movieOpt.isEmpty()) {
-            throw new MovieDoesNotExists();
-        }
-
-        Optional<Theater> theaterOpt = theaterRepository.findById(showRequest.getTheaterId());
-
-        if (theaterOpt.isEmpty()) {
-            throw new TheaterDoesNotExists();
-        }
-
-        Theater theater = theaterOpt.get();
-        Movie movie = movieOpt.get();
-
-        show.setMovie(movie);
-        show.setTheater(theater);
-        show = showRepository.save(show);
-
-        movie.getShows().add(show);
-        theater.getShowList().add(show);
-
-        movieRepository.save(movie);
-        theaterRepository.save(theater);
-
-        return "Show has been added Successfully";
+    // shows the list of shows available for a particular movie and theatre.
+    public List<Show> getShowsByMovieAndTheater(Integer movieId, Integer theaterId) {
+        return showRepository.findShowsByMovieAndTheater(movieId, theaterId);
     }
 
-    public String associateShowSeats(ShowSeatRequest showSeatRequest) throws ShowDoesNotExist {
-        Optional<Show> showOpt = showRepository.findById(showSeatRequest.getShowId());
+    // // This method is used to add a show to the database
+    // public String addShow(ShowRequest showRequest) {
+    // // converts a show request received to show entity
+    // Show show = ShowConvertor.showDtoToShow(showRequest);
 
-        if (showOpt.isEmpty()) {
-            throw new ShowDoesNotExist();
-        }
+    // // Tries to fetch a movie, throws exception if movie does not exist
+    // Optional<Movie> movieOpt =
+    // movieRepository.findById(showRequest.getMovieId());
 
-        Show show = showOpt.get();
-        Theater theater = show.getTheater();
+    // if (movieOpt.isEmpty()) {
+    // throw new MovieDoesNotExists();
+    // }
 
-        List<TheaterSeat> theaterSeatList = theater.getTheaterSeatList();
+    // // Tries to fetch a theater throws exception if theatre does not exist
+    // Optional<Theater> theaterOpt =
+    // theaterRepository.findById(showRequest.getTheaterId());
 
-        List<ShowSeat> showSeatList = show.getShowSeatList();
+    // if (theaterOpt.isEmpty()) {
+    // throw new TheaterDoesNotExists();
+    // }
 
-        for (TheaterSeat theaterSeat : theaterSeatList) {
-            ShowSeat showSeat = new ShowSeat();
-            showSeat.setSeatNo(theaterSeat.getSeatNo());
-            showSeat.setSeatType(theaterSeat.getSeatType());
+    // // sets the movie and theater properties for the show
+    // Theater theater = theaterOpt.get();
+    // Movie movie = movieOpt.get();
 
-            if (showSeat.getSeatType().equals(SeatType.CLASSIC)) {
-                showSeat.setPrice((showSeatRequest.getPriceOfClassicSeat()));
-            } else {
-                showSeat.setPrice(showSeatRequest.getPriceOfPremiumSeat());
-            }
+    // show.setMovie(movie);
+    // show.setTheater(theater);
 
-            showSeat.setShow(show);
-            showSeat.setIsAvailable(Boolean.TRUE);
-            showSeat.setIsFoodContains(Boolean.FALSE);
+    // // saves the show entity to the database
+    // show = showRepository.save(show);
 
-            showSeatList.add(showSeat);
-        }
+    // // adds the show to the list of shows for that movie and theatre
+    // movie.getShows().add(show);
+    // theater.getShowList().add(show);
 
-        showRepository.save(show);
+    // // saves the updated movies and theatres
+    // movieRepository.save(movie);
+    // theaterRepository.save(theater);
 
-        return "Show seats have been associated successfully";
-    }
+    // return "Show has been added Successfully";
+    // }
+
+    // // this method associates seats with a show by creating showseat entities for
+    // each seat
+    // public String associateShowSeats(ShowSeatRequest showSeatRequest) throws
+    // ShowDoesNotExist {
+    // // tries to find the show entity, throws exception if not found
+    // Optional<Show> showOpt =
+    // showRepository.findById(showSeatRequest.getShowId());
+
+    // if (showOpt.isEmpty()) {
+    // throw new ShowDoesNotExist();
+    // }
+    // // retrieves theatre associated with the show
+    // Show show = showOpt.get();
+    // Theater theater = show.getTheater();
+
+    // // retrieves list of theatre and showseats
+    // List<TheaterSeat> theaterSeatList = theater.getTheaterSeatList();
+
+    // List<ShowSeat> showSeatList = show.getShowSeatList();
+
+    // // for each seat in the theatre create a corresponding showseat and updates
+    // showseat
+    // for (TheaterSeat theaterSeat : theaterSeatList) {
+    // ShowSeat showSeat = new ShowSeat();
+    // showSeat.setSeatNo(theaterSeat.getSeatNo());
+    // showSeat.setSeatType(theaterSeat.getSeatType());
+
+    // if (showSeat.getSeatType().equals(SeatType.CLASSIC)) {
+    // showSeat.setPrice((showSeatRequest.getPriceOfClassicSeat()));
+    // } else {
+    // showSeat.setPrice(showSeatRequest.getPriceOfPremiumSeat());
+    // }
+
+    // showSeat.setShow(show);
+    // showSeat.setIsAvailable(Boolean.TRUE);
+    // showSeat.setIsFoodContains(Boolean.FALSE);
+
+    // showSeatList.add(showSeat);
+    // }
+
+    // // saves the updated showseat
+    // showRepository.save(show);
+
+    // return "Show seats have been associated successfully";
+    // }
 }

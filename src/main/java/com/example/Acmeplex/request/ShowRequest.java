@@ -1,7 +1,5 @@
 package com.example.Acmeplex.request;
 
-package com.jts.movie.request;
-
 import lombok.Data;
 
 import java.sql.Date;

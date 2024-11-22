@@ -8,7 +8,3 @@ public class ShowDoesNotExist extends RuntimeException {
         super("Show does not exists");
     }
 }
-
-public class ShowDoesNotExist {
-
-}

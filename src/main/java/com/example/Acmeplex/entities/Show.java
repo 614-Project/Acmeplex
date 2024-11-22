@@ -5,15 +5,17 @@ import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+// import jakarta.persistence.CascadeType;
+// import jakarta.persistence.Entity;
+// import jakarta.persistence.FetchType;
+// import jakarta.persistence.GeneratedValue;
+// import jakarta.persistence.GenerationType;
+// import jakarta.persistence.Id;
+// import jakarta.persistence.JoinColumn;
+// import jakarta.persistence.ManyToOne;
+// import jakarta.persistence.OneToMany;
+// import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -35,21 +37,19 @@ public class Show {
 
     private Date date;
 
-    @ManyToOne
-    @JoinColumn
-    private Movie movie;
+    // @ManyToOne(fetch = FetchType.LAZY)
+    // @JoinColumn(name = "movieId")
+    // private Movie movie;
 
-    @ManyToOne
-    @JoinColumn
-    private Theater theater;
+    // @ManyToOne (fetch = FetchType.LAZY)
+    // @JoinColumn (name = "theaterId")
+    // private Theater theater;
 
-    @OneToMany(mappedBy = "show", cascade = CascadeType.ALL)
-    private List<ShowSeat> showSeatList = new ArrayList<>();
+    // @OneToMany(mappedBy = "show", cascade = CascadeType.ALL, fetch =
+    // FetchType.LAZY)
+    // private List<ShowSeat> showSeatList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "show", cascade = CascadeType.ALL)
-    private List<Ticket> ticketList = new ArrayList<>();
-}
-
-public class Show {
-
+    // @OneToMany(mappedBy = "show", cascade = CascadeType.ALL, fetch =
+    // FetchType.LAZY)
+    // private List<Ticket> ticketList = new ArrayList<>();
 }
