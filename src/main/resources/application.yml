@@ -1,49 +1,3 @@
-# server:
-#   port: 8080
-#   error:
-#     include-message: always
-#     include-binding-errors: always
-
-# spring:
-#   application:
-#     name: Acmeplex
-#   datasource:
-#     url: jdbc:mysql://localhost:3306/Acmeplex?useSSL=false&serverTimezone=UTC&createTableIfNotExists=true&allowPublicKeyRetrieval=true
-#     username: root
-#     password: root
-#   jpa:
-#     hibernate:
-#       ddl-auto: update
-#     properties:
-#       hibernate:
-#         dialect: org.hibernate.dialect.MySQLDialect
-#         format_sql: true
-#     show-sql: true
-
-#   mail:
-#     host: localhost
-#     port: 5000
-#     username: root
-#     password: root
-
-#     properties:
-#       mail:
-#         smtp:
-#           ssl:
-#             trust: "*"
-#           auth: true
-#           starttls:
-#             enable: true
-#           connectiontimeout: 5000
-#           timeout: 3000
-#           writetimeout: 5000
-# logging:
-#   level:
-#     org.springframework.security: DEBUG
-# jwt: 
-#   secret: 404D635166546A576E5A7234753778214125442A472D4B6150645267556B5870
-#   expiration: 86400000 # 24 hours in milliseconds
-      
 
 server:
   port: 8080
@@ -90,3 +44,8 @@ logging:
 jwt:
   secret: 404D635166546A576E5A7234753778214125442A472D4B6150645267556B5870
   expiration: 86400000 # 24 hours in milliseconds
+
+stripe:
+  api:
+    key: sk_test_51QNrf6EN5RfB81n8y68FX08ZqjxpMAKcVORyttoRodYPeVWZfwjoogDhSOWnAKEfZW4DamJeoWlsJgWJgRbbCVcD00haA3eZPg
+    public-key: pk_test_51QNrf6EN5RfB81n8KfmB4d7WbCfXCHZt6fAMCggqvXjKo2irMoAHFGaTHKeAETb4w98F9CpANd44s6Lrz23u87UD00shIXk2Uy
