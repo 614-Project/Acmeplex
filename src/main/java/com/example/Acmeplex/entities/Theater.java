@@ -28,8 +28,8 @@ public class Theater {
     @Column(unique = true)
     private String address;
 
-    // @OneToMany(mappedBy = "theater", cascade = CascadeType.ALL)
-    // private List<TheaterSeat> theaterSeatList = new ArrayList<>();
+    @OneToMany(mappedBy = "theater", cascade = CascadeType.ALL)
+    private List<TheaterSeat> theaterSeatList = new ArrayList<>();
 
     @OneToMany(mappedBy = "theater", cascade = CascadeType.ALL)
     private List<Show> showList = new ArrayList<>();

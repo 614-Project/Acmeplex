@@ -11,9 +11,10 @@ import com.example.Acmeplex.exceptions.TheaterDoesNotExist;
 import com.example.Acmeplex.exceptions.TheaterAlreadyExists;
 import com.example.Acmeplex.repositories.TheaterRepository;
 import com.example.Acmeplex.request.TheaterRequest;
-// import com.example.Acmeplex.request.TheaterSeatRequest;
+import com.example.Acmeplex.request.TheaterSeatRequest;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TheaterService {
@@ -32,64 +33,101 @@ public class TheaterService {
 		theaterRepository.save(theater);
 		return "Theater has been saved Successfully";
 	}
-	// // method to add theatreseats to the database
-	// public String addTheaterSeat(TheaterSeatRequest entryDto) throws
-	// TheaterDoesNotExist {
-	// if (theaterRepository.findByAddress(entryDto.getAddress()) == null) {
-	// throw new TheaterDoesNotExist();
-	// }
 
-	// Integer noOfSeatsInRow = entryDto.getNoOfSeatInRow();
-	// Integer noOfPremiumSeats = entryDto.getNoOfPremiumSeat();
-	// Integer noOfClassicSeat = entryDto.getNoOfClassicSeat();
-	// String address = entryDto.getAddress();
+	// Method to get all theaters
+	public List<Theater> getAllTheaters() {
+		return theaterRepository.findAll();
+	}
 
-	// Theater theater = theaterRepository.findByAddress(address);
+	// Method to get a theater by ID
+	public Optional<Theater> getTheaterById(Integer id) {
+		return theaterRepository.findById(id);
+	}
 
-	// List<TheaterSeat> seatList = theater.getTheaterSeatList();
+	// method to find a theatre by name
+	public Optional<Theater> getTheaterByName(String name) {
+		return theaterRepository.findByNameIgnoreCase(name);
+	}
 
-	// int counter = 1;
-	// int fill = 0;
-	// char ch = 'A';
+	// Method to update theater data by ID
+	public String updateTheaterById(Integer id, TheaterRequest theaterRequest) throws TheaterDoesNotExist {
+		Optional<Theater> theaterOpt = theaterRepository.findById(id);
 
-	// for (int i = 1; i <= noOfClassicSeat; i++) {
-	// String seatNo = Integer.toString(counter) + ch;
+		if (theaterOpt.isEmpty()) {
+			throw new TheaterDoesNotExist();
+		}
 
-	// ch++;
-	// fill++;
-	// if (fill == noOfSeatsInRow) {
-	// fill = 0;
-	// counter++;
-	// ch = 'A';
-	// }
+		Theater theater = theaterOpt.get();
+		theater.setName(theaterRequest.getName());
+		theater.setAddress(theaterRequest.getAddress());
+		theaterRepository.save(theater);
+		return "Theater has been updated Successfully";
+	}
 
-	// TheaterSeat theaterSeat = new TheaterSeat();
-	// theaterSeat.setSeatNo(seatNo);
-	// theaterSeat.setSeatType(SeatType.CLASSIC);
-	// theaterSeat.setTheater(theater);
-	// seatList.add(theaterSeat);
-	// }
+	// method to update theatre by name
+	public String updateTheaterByName(String name, TheaterRequest theaterRequest) throws TheaterDoesNotExist {
+		Optional<Theater> theaterOpt = theaterRepository.findByNameIgnoreCase(name);
 
-	// for (int i = 1; i <= noOfPremiumSeats; i++) {
-	// String seatNo = Integer.toString(counter) + ch;
+		if (theaterOpt.isEmpty()) {
+			throw new TheaterDoesNotExist();
+		}
 
-	// ch++;
-	// fill++;
-	// if (fill == noOfSeatsInRow) {
-	// fill = 0;
-	// counter++;
-	// ch = 'A';
-	// }
+		Theater theater = theaterOpt.get();
+		theater.setName(theaterRequest.getName());
+		theater.setAddress(theaterRequest.getAddress());
+		theaterRepository.save(theater);
 
-	// TheaterSeat theaterSeat = new TheaterSeat();
-	// theaterSeat.setSeatNo(seatNo);
-	// theaterSeat.setSeatType(SeatType.PREMIUM);
-	// theaterSeat.setTheater(theater);
-	// seatList.add(theaterSeat);
-	// }
+		return "Theater has been updated Successfully";
 
-	// theaterRepository.save(theater);
+	}
 
-	// return "Theater Seats have been added successfully";
-	// }
+	// method to delete theatre by ID
+	public String deleteTheaterById(Integer id) throws TheaterDoesNotExist {
+		Optional<Theater> theaterOpt = theaterRepository.findById(id);
+		if (theaterOpt.isEmpty()) {
+			throw new TheaterDoesNotExist();
+		}
+		theaterRepository.deleteById(id);
+		return "Theater has been deleted Successfully";
+	}
+
+	// Method to delete a theater by name
+	public String deleteTheaterByName(String name) throws TheaterDoesNotExist {
+		Optional<Theater> theaterOpt = theaterRepository.findByNameIgnoreCase(name);
+		if (theaterOpt.isEmpty()) {
+			throw new TheaterDoesNotExist();
+		}
+		theaterRepository.delete(theaterOpt.get());
+		return "Theater has been deleted Successfully";
+	}
+
+	// method to add theatreseats to the database
+	public String addTheaterSeat(TheaterSeatRequest entryDto) throws TheaterDoesNotExist {
+		if (theaterRepository.findByAddress(entryDto.getAddress()) == null) {
+			throw new TheaterDoesNotExist();
+		}
+
+		Integer numberOfRows = entryDto.getNumberOfRows();
+		Integer numberOfSeatsPerRow = entryDto.getNumberOfSeatPerRow();
+		String address = entryDto.getAddress();
+
+		Theater theater = theaterRepository.findByAddress(address);
+
+		List<TheaterSeat> seatList = theater.getTheaterSeatList();
+
+		for (int row = 1; row <= numberOfRows; row++) {
+			for (int seat = 1; seat <= numberOfSeatsPerRow; seat++) {
+				String seatNumber = "R" + row + "-S" + seat;
+				System.out.println(seatNumber);
+			}
+		}
+
+		TheaterSeat theaterSeat = new TheaterSeat();
+		theaterSeat.setSeatNo(seatNo);
+		theaterSeat.setTheater(theater);
+		seatList.add(theaterSeat);
+		theaterRepository.save(theater);
+		return "Theater Seats have been added successfully";
+	}
+
 }

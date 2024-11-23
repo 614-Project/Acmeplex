@@ -1,12 +1,12 @@
-package com.example.Acmeplex.repositiories;
+// package com.example.Acmeplex.repositories;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+// import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.example.Acmeplex.entities.Ticket;
+// import com.example.Acmeplex.entities.Ticket;
 
-public interface TicketRepository extends JpaRepository<Ticket, Integer> {
-}
+// public interface TicketRepository extends JpaRepository<Ticket, Integer> {
+// }
 
-public class TicketRepository {
+// public class TicketRepository {
 
-}
+// }
