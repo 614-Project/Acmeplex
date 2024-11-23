@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stripe Payment Form</title>
+    <style>
+        #payment-form {
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        #card-element {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+
+        #card-errors {
+            color: red;
+        }
+
+        #token-display {
+            margin-top: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            background-color: #f4f4f4;
+        }
+
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h2>Payment Form</h2>
+    <form id="payment-form">
+        <div id="card-element">
+            <!-- A Stripe Element will be inserted here. -->
+        </div>
+        <button type="submit">Submit Payment</button>
+        <div id="card-errors" role="alert"></div>
+    </form>
+    <div id="token-display" style="display:none;">
+        <h3>Your Stripe Token:</h3>
+        <p id="stripe-token"></p>
+    </div>
+
+    <script src="https://js.stripe.com/v3/"></script>
+    <script>
+        var stripe = Stripe('pk_test_51QNrf6EN5RfB81n8KfmB4d7WbCfXCHZt6fAMCggqvXjKo2irMoAHFGaTHKeAETb4w98F9CpANd44s6Lrz23u87UD00shIXk2Uy');  // Replace with your Stripe public key
+        var elements = stripe.elements();
+
+        var card = elements.create('card');
+        card.mount('#card-element');
+
+        card.on('change', function(event) {
+            var displayError = document.getElementById('card-errors');
+            if (event.error) {
+                displayError.textContent = event.error.message;
+            } else {
+                displayError.textContent = '';
+            }
+        });
+
+        var form = document.getElementById('payment-form');
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            stripe.createToken(card).then(function(result) {
+                if (result.error) {
+                    var errorElement = document.getElementById('card-errors');
+                    errorElement.textContent = result.error.message;
+                } else {
+                    stripeTokenHandler(result.token);
+                }
+            });
+        });
+
+        function stripeTokenHandler(token) {
+            console.log('Generated Stripe Token:', token.id);
+
+            // Display the token on the page
+            var tokenDisplay = document.getElementById('token-display');
+            var stripeToken = document.getElementById('stripe-token');
+            stripeToken.textContent = token.id;
+            tokenDisplay.style.display = 'block';
+
+            var form = document.getElementById('payment-form');
+            var hiddenInput = document.createElement('input');
+            hiddenInput.setAttribute('type', 'hidden');
+            hiddenInput.setAttribute('name', 'stripeToken');
+            hiddenInput.setAttribute('value', token.id);
+            form.appendChild(hiddenInput);
+
+            form.submit();
+        }
+    </script>
+</body>
+</html>

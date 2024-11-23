@@ -1,11 +1,5 @@
 package com.example.Acmeplex.config;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.security.Keys;
-import io.jsonwebtoken.io.Decoders;
-
 import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
@@ -14,6 +8,11 @@ import java.util.function.Function;
 
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.Keys;
 
 @Service
 public class JWTService {
@@ -61,8 +60,22 @@ public class JWTService {
                 .compact();
     }
 
-    private Key getSignKey() {
-        byte[] keyBytes = Decoders.BASE64.decode(SECRET);
-        return Keys.hmacShaKeyFor(keyBytes);
+
+        public static String payloadJWTExtraction(String token, String claimKey) {
+            // Parse the JWT token to extract the claims
+            Claims claims = Jwts.parserBuilder()
+                    .setSigningKey(getSignKey())
+                    .build()
+                    .parseClaimsJws(token.replace("Bearer ", ""))
+                    .getBody();
+    
+            // Retrieve the value of the specified claim (e.g., "sub" for email)
+            return claims.get(claimKey, String.class);
+        }
+    
+        private static Key getSignKey() {
+            byte[] keyBytes = SECRET.getBytes();
+            return Keys.hmacShaKeyFor(keyBytes);
+        }
     }
-}
+    

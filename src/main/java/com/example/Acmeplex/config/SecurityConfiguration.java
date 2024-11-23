@@ -34,7 +34,8 @@ public class SecurityConfiguration {
     SecurityFilterChain securityFilterChain(HttpSecurity http, JwtAuthFilter authFilter) throws Exception {
         return http.csrf(c -> c.disable())
                 .authorizeHttpRequests(req ->
-                    req.requestMatchers("user/auth/**").permitAll()
+                    req
+					//.requestMatchers("user/auth/**").permitAll()
                     .requestMatchers("/movie/**").hasAnyAuthority("ROLE_ADMIN")
                     .requestMatchers("/show/**").hasAnyAuthority("ROLE_ADMIN")
                     .requestMatchers("/theater/**").hasAnyAuthority("ROLE_ADMIN")
@@ -43,7 +44,9 @@ public class SecurityConfiguration {
 					.requestMatchers("/user/addNew").permitAll()
 					.requestMatchers("/user/getToken").permitAll()
 					.requestMatchers("/user/**").authenticated()
-                    .anyRequest().authenticated())
+					.requestMatchers("/api/payment/payment-intent").permitAll()					
+					.requestMatchers("/api/payment/**").authenticated()
+                    .anyRequest().permitAll())
                 .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider())
                 .addFilterBefore(authFilter, UsernamePasswordAuthenticationFilter.class)

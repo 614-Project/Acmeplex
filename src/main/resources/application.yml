@@ -5,13 +5,20 @@ server:
     include-message: always
     include-binding-errors: always
 
-spring:
+
+spring: 
+  datasource: 
+    url: jdbc:mysql://localhost:3306/Acmeplex?useSSL=false&serverTimezone=UTC&createTableIfNotExists=true&allowPublicKeyRetrieval=true 
+    username: root 
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+# spring:
   application:
     name: Acmeplex
-  datasource:
-    url: jdbc:mysql://localhost:3306/Acmeplex?useSSL=false&serverTimezone=UTC&createTableIfNotExists=true&allowPublicKeyRetrieval=true
-    username: root
-    password: root
+#   datasource:
+#     url: ${MYSQL_DB_URL}
+#     username: ${MYSQL_DB_USERNAME}
+#     password: ${MYSQL_DB_PASSWORD}
   jpa:
     hibernate:
       ddl-auto: update
@@ -23,8 +30,8 @@ spring:
   mail:
     host: localhost
     port: 5000
-    username: root
-    password: root
+    username: ${MYSQL_DB_USERNAME}
+    password: ${MYSQL_DB_PASSWORD}
     properties:
       mail:
         smtp:
@@ -49,3 +56,6 @@ stripe:
   api:
     key: sk_test_51QNrf6EN5RfB81n8y68FX08ZqjxpMAKcVORyttoRodYPeVWZfwjoogDhSOWnAKEfZW4DamJeoWlsJgWJgRbbCVcD00haA3eZPg
     public-key: pk_test_51QNrf6EN5RfB81n8KfmB4d7WbCfXCHZt6fAMCggqvXjKo2irMoAHFGaTHKeAETb4w98F9CpANd44s6Lrz23u87UD00shIXk2Uy
+   
+    # key: ${STRIPE_API_KEY}
+    # public-key: ${STRIPE_PUBLIC_KEY}
