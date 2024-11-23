@@ -5,8 +5,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.Acmeplex.convertors.TheaterConvertor;
 import com.example.Acmeplex.entities.Theater;
-// import com.example.Acmeplex.entities.TheaterSeat;
-// import com.example.Acmeplex.enums.SeatType;
+import com.example.Acmeplex.entities.TheaterSeat;
 import com.example.Acmeplex.exceptions.TheaterDoesNotExist;
 import com.example.Acmeplex.exceptions.TheaterAlreadyExists;
 import com.example.Acmeplex.repositories.TheaterRepository;
@@ -115,17 +114,24 @@ public class TheaterService {
 
 		List<TheaterSeat> seatList = theater.getTheaterSeatList();
 
-		for (int row = 1; row <= numberOfRows; row++) {
-			for (int seat = 1; seat <= numberOfSeatsPerRow; seat++) {
-				String seatNumber = "R" + row + "-S" + seat;
-				System.out.println(seatNumber);
+		int rowCounter = 1;
+		int seatCounter = 1;
+		int totalSeats = numberOfSeatsPerRow * numberOfRows;
+
+		for (int i = 1; i <= totalSeats; i++) {
+			String seatNo = "R" + rowCounter + "-S" + seatCounter;
+
+			TheaterSeat theaterSeat = new TheaterSeat();
+			theaterSeat.setSeatNo(seatNo);
+			theaterSeat.setTheater(theater);
+			seatList.add(theaterSeat);
+
+			seatCounter++;
+			if (seatCounter > numberOfSeatsPerRow) {
+				seatCounter = 1;
+				rowCounter++;
 			}
 		}
-
-		TheaterSeat theaterSeat = new TheaterSeat();
-		theaterSeat.setSeatNo(seatNo);
-		theaterSeat.setTheater(theater);
-		seatList.add(theaterSeat);
 		theaterRepository.save(theater);
 		return "Theater Seats have been added successfully";
 	}
