@@ -66,18 +66,20 @@ import com.stripe.model.checkout.Session;
 
 import com.stripe.param.checkout.SessionCreateParams;
 
+import jakarta.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 
 @Service
+@Transactional
 public class ProductService{
 
     @Autowired
-    private ProductRepository paymentRepository;
+    private ProductRepository productRepository;
     private static final String secretKey = "sk_test_51QNrf6EN5RfB81n8y68FX08ZqjxpMAKcVORyttoRodYPeVWZfwjoogDhSOWnAKEfZW4DamJeoWlsJgWJgRbbCVcD00haA3eZPg";
-
 
     public StripeResponse checkoutProducts(ProductRequest productRequest) {
         // Set your secret key. Remember to switch to your live secret key in production!
@@ -124,12 +126,13 @@ public class ProductService{
 
 
         Product product = new Product();
-        product.setName(productRequest.getName());
+        product.setProduct_name(productRequest.getName());
         product.setCurrency(productRequest.getCurrency());
         product.setQuantity(productRequest.getQuantity());
         product.setAmount(productRequest.getAmount());
-        //product.setStatus("PENDING"); // Initial status
-        paymentRepository.save(product);
+        product.setSessionId(session.getId());
+        product.setStatus("PENDING"); // Initial status
+        productRepository.save(product);
 
 
         return StripeResponse.builder()

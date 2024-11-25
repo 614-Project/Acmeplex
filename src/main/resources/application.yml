@@ -8,7 +8,8 @@ server:
 
 spring: 
   datasource: 
-    url: jdbc:mysql://localhost:3306/Acmeplex?useSSL=false&serverTimezone=UTC&createTableIfNotExists=true&allowPublicKeyRetrieval=true 
+    url: jdbc:mysql://localhost:3306/Acmeplex?useSSL=false&serverTimezone=America/Edmonton&createTableIfNotExists=true&allowPublicKeyRetrieval=true
+ 
     username: root 
     password: root
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -47,6 +48,10 @@ spring:
 logging:
   level:
     org.springframework.security: DEBUG
+    root: INFO
+    org.springframework.web: DEBUG
+    org.springframework: DEBUG  # Optionally enable logging for other Spring packages
+    com.yourpackage: DEBUG 
 
 jwt:
   secret: 404D635166546A576E5A7234753778214125442A472D4B6150645267556B5870
@@ -56,6 +61,8 @@ stripe:
   api:
     key: sk_test_51QNrf6EN5RfB81n8y68FX08ZqjxpMAKcVORyttoRodYPeVWZfwjoogDhSOWnAKEfZW4DamJeoWlsJgWJgRbbCVcD00haA3eZPg
     public-key: pk_test_51QNrf6EN5RfB81n8KfmB4d7WbCfXCHZt6fAMCggqvXjKo2irMoAHFGaTHKeAETb4w98F9CpANd44s6Lrz23u87UD00shIXk2Uy
-   
+    secret: whsec_5a77522b04760d992978cab6144b0d040146bb1f92699e72a634c538081c08fd
+
+
     # key: ${STRIPE_API_KEY}
     # public-key: ${STRIPE_PUBLIC_KEY}

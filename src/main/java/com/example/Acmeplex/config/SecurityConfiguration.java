@@ -46,6 +46,7 @@ public class SecurityConfiguration {
 					.requestMatchers("/user/**").authenticated()
 					.requestMatchers("/api/payment/payment-intent").permitAll()					
 					.requestMatchers("/api/payment/**").authenticated()
+					.requestMatchers("/v1/product/webhook").permitAll()
                     .anyRequest().permitAll())
                 .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider())

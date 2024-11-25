@@ -8,5 +8,5 @@ public class ProductRequest {
         private Long amount;
         private String currency;
         private Long quantity;
-        //private String receiptEmail;
+        private String sessionID;
 }

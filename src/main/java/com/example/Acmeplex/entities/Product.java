@@ -29,14 +29,14 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // @Column(name = "payment_intent_id")
-    // private String paymentIntentId;
+    @Column(name = "session_id")
+    private String sessionId;
 
-    // @Column(name = "client_secret")
-    // private String clientSecret;
+    @Column(name = "product_name")
+    private String product_name;
 
-    @Column(name = "name")
-    private String name;
+    @Column(name = "status")
+    private String status = "pending";
 
     @Column(name = "amount")
     private Long amount;
@@ -47,16 +47,13 @@ public class Product {
     @Column(name = "quantity")
     private Long quantity;
 
-
-    // @Column(name = "email")
-    // private String email;
+    @Column(name = "customerEmail")
+    private String customerEmail;
 
     @Column(name = "createdDate")
     private LocalDateTime createdDate;
 
     @Column(name = "expireDate")
     private LocalDateTime expireDate;
-    // Additional fields as needed
-
 
 }
