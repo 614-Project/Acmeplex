@@ -4,10 +4,11 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import com.example.Acmeplex.entities.Product;
+
+import com.example.Acmeplex.entities.Ticket;
 
 @Repository
-public interface ProductRepository extends JpaRepository<Product, Long> {
+public interface TicketRepository extends JpaRepository<Ticket, Long> {
 
-    Optional<Product> findBySessionId(String email);
+    Optional<Ticket> findBySessionId(String email);
 }

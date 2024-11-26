@@ -12,8 +12,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.Acmeplex.entities.Product;
-import com.example.Acmeplex.repositiories.ProductRepository;
+import com.example.Acmeplex.entities.Payment;
+import com.example.Acmeplex.entities.Ticket;
+import com.example.Acmeplex.repositiories.PaymentRepository;
+import com.example.Acmeplex.repositiories.TicketRepository;
 import com.example.Acmeplex.services.EmailService;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -28,7 +30,10 @@ public class WebhookController {
     private String endpointSecret;
     
     @Autowired
-     ProductRepository productRepository;
+     TicketRepository ticketRepository;
+
+     @Autowired
+     PaymentRepository paymentRepository;
     
      @Autowired
     private EmailService emailService;
@@ -46,26 +51,31 @@ public class WebhookController {
                 JsonObject session = eventJson.getAsJsonObject("data").getAsJsonObject("object");
                 String sessionId = session.get("id").getAsString();
                 String customerEmail = session.get("customer_details").getAsJsonObject().get("email").getAsString();
+                
+                String customerName = session.get("customer_details").getAsJsonObject().get("name").getAsString();
                 String paymentIntentId = session.get("payment_intent").getAsString();
                 
                 // Log or process the session ID and customer email
                 System.out.println("Session ID: " + sessionId);
                 System.out.println("Customer Email: " + customerEmail);
 
-             Optional<Product> productOptional = productRepository.findBySessionId(sessionId);
-            if (productOptional.isPresent()) {
-                Product product = productOptional.get();
+             Optional<Ticket> ticketOptional = ticketRepository.findBySessionId(sessionId);
+            if (ticketOptional.isPresent()) {
+                Ticket ticket = ticketOptional.get();
+                Payment payment = new Payment();
                 
-                product.setStatus("PAID");
-                product.setCreatedDate(LocalDateTime.now());
-                product.setExpireDate(LocalDateTime.now().plusDays(3));
+                payment.setStatus("PAID");
+                payment.setCreatedDate(LocalDateTime.now());
+                payment.setExpireDate(LocalDateTime.now().plusDays(3));
+                payment .setCustomerEmail(customerEmail);
+                payment.setCustomerName(customerName);
+                payment.setConfirmationId(paymentIntentId);
+                payment.setTicket(ticket);
 
-                if (customerEmail != null) {
-                    product.setCustomerEmail(customerEmail);
-                }
-                productRepository.save(product);
+                paymentRepository.save(payment);
+                ticketRepository.save(ticket);
                 // Log the saved product details
-                System.out.println("Product updated: " + product);
+                System.out.println("Product updated: " + ticket);
 
                 //Send Email to customer
                 //String subject = "Payment Successful";

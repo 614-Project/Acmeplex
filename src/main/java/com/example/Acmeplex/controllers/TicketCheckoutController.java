@@ -9,27 +9,27 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.Acmeplex.repositiories.ProductRepository;
-import com.example.Acmeplex.request.ProductRequest;
+import com.example.Acmeplex.repositiories.TicketRepository;
+import com.example.Acmeplex.request.TicketRequest;
 import com.example.Acmeplex.response.StripeResponse;
-import com.example.Acmeplex.services.ProductService;
+import com.example.Acmeplex.services.TicketService;
 
 
 @RestController
 @RequestMapping("/product")
-public class ProductCheckoutController {
+public class TicketCheckoutController {
 
-    private ProductService stripeService;
+    private TicketService stripeService;
 
     @Autowired
-    ProductRepository productRepository;
+    TicketRepository productRepository;
     
-    public ProductCheckoutController(ProductService stripeService) {
+    public TicketCheckoutController(TicketService stripeService) {
         this.stripeService = stripeService;
     }
 
     @PostMapping("/checkout")
-    public ResponseEntity<StripeResponse> checkoutProducts(@RequestBody ProductRequest productRequest) {
+    public ResponseEntity<StripeResponse> checkoutProducts(@RequestBody TicketRequest productRequest) {
         StripeResponse stripeResponse = stripeService.checkoutProducts(productRequest);
         return ResponseEntity
                 .status(HttpStatus.OK)
