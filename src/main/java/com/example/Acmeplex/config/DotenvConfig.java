@@ -11,10 +11,11 @@ public class DotenvConfig {
     @PostConstruct
     public void init() {
         Dotenv dotenv = Dotenv.configure().load();
-        System.setProperty("STRIPE_API_KEY", dotenv.get("STRIPE_API_KEY"));
+        System.setProperty("STRIPE-WEBHOOK-SECRET", dotenv.get("STRIPE-WEBHOOK-SECRET"));
         System.setProperty("STRIPE_PUBLIC_KEY", dotenv.get("STRIPE_PUBLIC_KEY"));
-        System.setProperty("MYSQL_DB_URL", dotenv.get("MYSQL_DB_URL"));
+        System.setProperty("STRIPE_SECRET_KEY", dotenv.get("STRIPE_SECRET_KEY"));
         System.setProperty("MYSQL_DB_USERNAME", dotenv.get("MYSQL_DB_USERNAME"));
         System.setProperty("MYSQL_DB_PASSWORD", dotenv.get("MYSQL_DB_PASSWORD"));
+        System.setProperty("MYSQL_DB_URL", dotenv.get("MYSQL_DB_URL"));
     }
 }

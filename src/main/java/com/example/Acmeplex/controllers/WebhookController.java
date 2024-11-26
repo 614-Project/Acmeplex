@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,7 +24,8 @@ import com.stripe.net.Webhook;
 @RestController
 public class WebhookController {
 
-    private static final String endpointSecret = "whsec_5a77522b04760d992978cab6144b0d040146bb1f92699e72a634c538081c08fd";
+    @Value("${stripe.webhook.secret}")
+    private String endpointSecret;
     
     @Autowired
      ProductRepository productRepository;
