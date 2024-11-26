@@ -6,7 +6,6 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -81,15 +80,14 @@ public class TheaterController {
 		}
 	}
 
-	// @PostMapping("/addTheaterSeat")
-	// public ResponseEntity<String> addTheaterSeat(@RequestBody TheaterSeatRequest
-	// entryDto) {
-	// try {
-	// String result = theaterService.addTheaterSeat(entryDto);
-	// return new ResponseEntity<>(result, HttpStatus.CREATED);
-	// } catch (Exception e) {
-	// return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-	// }
-	// }
+	@PostMapping("/addTheaterSeat")
+	public ResponseEntity<String> addTheaterSeat(@RequestBody TheaterSeatRequest entryDto) {
+		try {
+			String result = theaterService.addTheaterSeat(entryDto);
+			return new ResponseEntity<>(result, HttpStatus.CREATED);
+		} catch (Exception e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
+	}
 
 }

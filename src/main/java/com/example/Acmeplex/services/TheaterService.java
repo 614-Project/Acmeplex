@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.Acmeplex.convertors.TheaterConvertor;
 import com.example.Acmeplex.entities.Theater;
-// import com.example.Acmeplex.entities.TheaterSeat;
+import com.example.Acmeplex.entities.TheaterSeat;
 // import com.example.Acmeplex.enums.SeatType;
 import com.example.Acmeplex.exceptions.TheaterDoesNotExist;
 import com.example.Acmeplex.exceptions.TheaterAlreadyExists;
