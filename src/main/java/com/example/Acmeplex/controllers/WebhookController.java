@@ -1,12 +1,5 @@
 package com.example.Acmeplex.controllers;
 
-import com.example.Acmeplex.entities.Product;
-import com.example.Acmeplex.repositiories.ProductRepository;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.stripe.exception.SignatureVerificationException;
-import com.stripe.model.Event;
-import com.stripe.net.Webhook;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
@@ -18,6 +11,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.Acmeplex.entities.Product;
+import com.example.Acmeplex.repositiories.ProductRepository;
+import com.example.Acmeplex.services.EmailService;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.stripe.exception.SignatureVerificationException;
+import com.stripe.model.Event;
+import com.stripe.net.Webhook;
+
 @RestController
 public class WebhookController {
 
@@ -25,6 +27,9 @@ public class WebhookController {
     
     @Autowired
      ProductRepository productRepository;
+    
+     @Autowired
+    private EmailService emailService;
 
     @PostMapping("/webhook")
     public ResponseEntity<String> handleStripeWebhook(@RequestBody String payload,
@@ -39,6 +44,8 @@ public class WebhookController {
                 JsonObject session = eventJson.getAsJsonObject("data").getAsJsonObject("object");
                 String sessionId = session.get("id").getAsString();
                 String customerEmail = session.get("customer_details").getAsJsonObject().get("email").getAsString();
+                String paymentIntentId = session.get("payment_intent").getAsString();
+                
                 // Log or process the session ID and customer email
                 System.out.println("Session ID: " + sessionId);
                 System.out.println("Customer Email: " + customerEmail);
@@ -57,6 +64,12 @@ public class WebhookController {
                 productRepository.save(product);
                 // Log the saved product details
                 System.out.println("Product updated: " + product);
+
+                //Send Email to customer
+                //String subject = "Payment Successful";
+                String body = "Dear Customer, your payment has been successfully processed. Thank you for your purchase!. Your confirmation number is " + paymentIntentId;
+                emailService.sendPaymentSuccessEmail(customerEmail, body);
+
                 return ResponseEntity.ok("Product status updated to PAID");
             } else {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND)
