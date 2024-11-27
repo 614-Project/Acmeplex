@@ -70,7 +70,7 @@ public class UserController {
     }
 
     // View Profile by ID
-    @GetMapping("/{id}/profile")
+    @GetMapping("/{id}")
     public ResponseEntity<UserResponse> viewUserProfile(@PathVariable Integer id) {
         try {
             UserResponse userResponse = userService.getUserById(id);
@@ -120,6 +120,5 @@ public class UserController {
 
     throw new UsernameNotFoundException("Invalid user details.");
 }
-
 
 }

@@ -2,6 +2,7 @@ package com.example.Acmeplex.entities;
 
 import java.time.LocalDateTime;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -18,31 +19,28 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "Payment")
+@Table(name = "Credit")
 @Data
 @Builder
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Payment {
+public class Credit {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "confirmation_Id")
-    private String confirmationId;
+    @Column(name = "credit")
+    private Integer credit;
 
-    @Column(name = "customer_name")
-    private String customerName;
-
-    @Column(name = "customer_email")
-    private String customerEmail;
+    @Column(name = "expireDate")
+    private LocalDateTime expireDate;
 
 
     @OneToOne
     @JoinColumn(name = "ticket_id", referencedColumnName = "id")
     private Ticket ticket;
-
 }
+

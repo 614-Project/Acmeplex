@@ -10,5 +10,6 @@ import com.example.Acmeplex.entities.Ticket;
 @Repository
 public interface TicketRepository extends JpaRepository<Ticket, Long> {
 
-    Optional<Ticket> findBySessionId(String email);
+    Optional<Ticket> findBySessionId(String sessionId);
+    Optional<Ticket> findById(Long id);
 }

@@ -54,19 +54,15 @@ public class WebhookController {
                 
                 String customerName = session.get("customer_details").getAsJsonObject().get("name").getAsString();
                 String paymentIntentId = session.get("payment_intent").getAsString();
-                
-                // Log or process the session ID and customer email
-                System.out.println("Session ID: " + sessionId);
-                System.out.println("Customer Email: " + customerEmail);
 
              Optional<Ticket> ticketOptional = ticketRepository.findBySessionId(sessionId);
             if (ticketOptional.isPresent()) {
                 Ticket ticket = ticketOptional.get();
                 Payment payment = new Payment();
                 
-                payment.setStatus("PAID");
-                payment.setCreatedDate(LocalDateTime.now());
-                payment.setExpireDate(LocalDateTime.now().plusDays(3));
+                ticket.setStatus("PAID");
+                ticket.setCreatedDate(LocalDateTime.now());
+                ticket.setExpireDate(LocalDateTime.now().plusDays(3));
                 payment .setCustomerEmail(customerEmail);
                 payment.setCustomerName(customerName);
                 payment.setConfirmationId(paymentIntentId);
@@ -74,8 +70,7 @@ public class WebhookController {
 
                 paymentRepository.save(payment);
                 ticketRepository.save(ticket);
-                // Log the saved product details
-                System.out.println("Product updated: " + ticket);
+
 
                 //Send Email to customer
                 //String subject = "Payment Successful";

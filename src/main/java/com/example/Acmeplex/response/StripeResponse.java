@@ -14,5 +14,5 @@ public class StripeResponse {
     private String sessionUrl;
     private String amount;
     private String currency;
-    private String name;
+    private String movieName;
 }

@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.Acmeplex.repositiories.TicketRepository;
@@ -16,25 +17,31 @@ import com.example.Acmeplex.services.TicketService;
 
 
 @RestController
-@RequestMapping("/product")
-public class TicketCheckoutController {
+@RequestMapping("/ticket")
+public class TicketController {
 
-    private TicketService stripeService;
+    private TicketService ticketService;
 
     @Autowired
-    TicketRepository productRepository;
+    TicketRepository ticketRepository;
     
-    public TicketCheckoutController(TicketService stripeService) {
-        this.stripeService = stripeService;
+    public TicketController(TicketService stripeService) {
+        this.ticketService = stripeService;
     }
 
     @PostMapping("/checkout")
-    public ResponseEntity<StripeResponse> checkoutProducts(@RequestBody TicketRequest productRequest) {
-        StripeResponse stripeResponse = stripeService.checkoutProducts(productRequest);
+    public ResponseEntity<StripeResponse> checkoutProducts(@RequestBody TicketRequest ticketRequest) {
+        StripeResponse stripeResponse = ticketService.checkoutProducts(ticketRequest);
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(stripeResponse);
     }
+
+    @PostMapping("/cancel")
+    public void cancelTicket(@RequestParam Long ticketNumber){
+        ticketService.cancelTicket(ticketNumber);
+    }
+
 
 
     @GetMapping("/success")

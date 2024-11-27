@@ -39,7 +39,7 @@ public class SecurityConfiguration {
                     .requestMatchers("/movie/**").hasAnyAuthority("ROLE_ADMIN")
                     .requestMatchers("/show/**").hasAnyAuthority("ROLE_ADMIN")
                     .requestMatchers("/theater/**").hasAnyAuthority("ROLE_ADMIN")
-                    .requestMatchers("/ticket/**").hasAnyAuthority("ROLE_USER")
+					.requestMatchers("/ticket/checkout").permitAll()
 					.requestMatchers("/user/login").permitAll()
 					.requestMatchers("/user/addNew").permitAll()
 					.requestMatchers("/user/getToken").permitAll()
@@ -47,6 +47,7 @@ public class SecurityConfiguration {
 					.requestMatchers("/api/payment/payment-intent").permitAll()					
 					.requestMatchers("/api/payment/**").authenticated()
 					.requestMatchers("/v1/product/webhook").permitAll()
+
                     .anyRequest().permitAll())
                 .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider())

@@ -9,6 +9,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -28,7 +29,8 @@ import lombok.Setter;
 public class Ticket {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ticket_seq")
+    @SequenceGenerator(name = "ticket_id", sequenceName = "ticket_sequence", initialValue = 1000, allocationSize = 1)
     private Long id;
 
     @Column(name = "session_id")
@@ -57,6 +59,15 @@ public class Ticket {
 
     @Column(name = "show_time")
     private LocalDateTime showTime;
+
+    @Column(name = "createdDate")
+    private LocalDateTime createdDate;
+
+    @Column(name = "expireDate")
+    private LocalDateTime expireDate;
+
+    @Column(name = "status")
+    private String status = "pending";
 
     // @OneToOne(mappedBy = "ticket")  // This refers to the Payment entity's "ticket" field
     // private Payment payment;
