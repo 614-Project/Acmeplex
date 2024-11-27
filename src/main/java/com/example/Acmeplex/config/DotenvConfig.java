@@ -17,5 +17,8 @@ public class DotenvConfig {
         System.setProperty("MYSQL_DB_USERNAME", dotenv.get("MYSQL_DB_USERNAME"));
         System.setProperty("MYSQL_DB_PASSWORD", dotenv.get("MYSQL_DB_PASSWORD"));
         System.setProperty("MYSQL_DB_URL", dotenv.get("MYSQL_DB_URL"));
+        System.setProperty("EMAIL_USERNAME", dotenv.get("EMAIL_USERNAME"));
+        System.setProperty("EMAIL_PASSWORD", dotenv.get("EMAIL_PASSWORD"));
+
     }
 }
