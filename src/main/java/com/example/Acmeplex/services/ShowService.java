@@ -18,7 +18,7 @@ import com.example.Acmeplex.entities.Show;
 // import com.example.Acmeplex.exceptions.ShowDoesNotExists;
 // import com.example.Acmeplex.exceptions.TheaterDoesNotExists;
 // import com.example.Acmeplex.repositories.MovieRepository;
-import com.example.Acmeplex.repositiories.ShowRepository; // repositories incorrectly spelled....remember to update name on all files.
+import com.example.Acmeplex.repositories.ShowRepository;
 // import com.example.Acmeplex.repositories.TheaterRepository;
 // import com.example.Acmeplex.request.ShowRequest;
 // import com.example.Acmeplex.request.ShowSeatRequest;
