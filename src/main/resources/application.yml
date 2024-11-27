@@ -8,23 +8,22 @@ spring:
   application:
     name: Acmeplex
   datasource:
-    url: jdbc:mysql://localhost:3306/Acmeplex?useSSL=false&serverTimezone=UTC?createTableIfNotExists=true
-    username: ${DB_USERNAME}
-    password: ${DB_PASSWORD}
+    url: jdbc:mysql://localhost:3306/Acmeplex?useSSL=false&serverTimezone=UTC
+    username: root
+    password: password123!
+    # driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
       ddl-auto: update
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.MySQLDialect
+        dialect: org.hibernate.dialect.MySQL8Dialect
         format_sql: true
     show-sql: true
 
   mail:
-    host: localhost
-    port: 5000
-    username: root
-    password: root
+    host: dummy-host
+    port: 1025
 
     properties:
       mail:
@@ -37,7 +36,7 @@ spring:
           connectiontimeout: 5000
           timeout: 3000
           writetimeout: 5000
+
 logging:
   level:
     org.springframework.security: DEBUG
-      
