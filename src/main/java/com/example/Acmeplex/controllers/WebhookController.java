@@ -71,12 +71,9 @@ public class WebhookController {
                 paymentRepository.save(payment);
                 ticketRepository.save(ticket);
 
-
-                //Send Email to customer
-                //String subject = "Payment Successful";
-                String body = "Dear Customer, your payment has been successfully processed. Thank you for your purchase!. Your confirmation number is " + paymentIntentId;
-                emailService.sendPaymentSuccessEmail(customerEmail, body);
-
+                emailService.sendPaymentSuccessEmail(customerEmail, paymentIntentId);
+                emailService.sendTicketDetailsEmail( customerEmail, ticket, customerName);
+                
                 return ResponseEntity.ok("Product status updated to PAID");
             } else {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND)

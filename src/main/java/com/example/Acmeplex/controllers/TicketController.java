@@ -42,8 +42,6 @@ public class TicketController {
         ticketService.cancelTicket(ticketNumber);
     }
 
-
-
     @GetMapping("/success")
     public String successPage() {
     return "success"; // Or the actual view name
