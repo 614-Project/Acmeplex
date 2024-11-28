@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -52,11 +53,13 @@ public class Movie {
 
     @ElementCollection
     @CollectionTable(name = "MOVIE_CAST", joinColumns = @JoinColumn(name = "movieId"))
-    //@Column(name = "cast_member")
+    // @Column(name = "cast_member")
     private List<String> cast;
 
-    private String url; 
+    private String url;
 
     private String trailerUrl;
-}
 
+    @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL)
+    private List<Show> shows = new ArrayList<>();
+}

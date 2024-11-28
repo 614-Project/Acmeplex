@@ -9,7 +9,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.example.Acmeplex.entities.User;
-import com.example.Acmeplex.repositiories.UserRepository;
+import com.example.Acmeplex.repositories.UserRepository;
 
 @Service
 public class UserInfoUserDetailsService implements UserDetailsService {

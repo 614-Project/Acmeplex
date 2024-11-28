@@ -1,11 +1,11 @@
-package com.example.Acmeplex.convertor;
+package com.example.Acmeplex.convertors;
 
 import com.example.Acmeplex.entities.User;
 import com.example.Acmeplex.request.UserRequest;
 import com.example.Acmeplex.response.UserResponse;
 
 public class UserConvertor {
-     public static User userDtoToUser(UserRequest userRequest, String password) {
+    public static User userDtoToUser(UserRequest userRequest, String password) {
         User user = User.builder()
                 .name(userRequest.getName())
                 .address(userRequest.getAddress())

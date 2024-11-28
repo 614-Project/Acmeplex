@@ -1,6 +1,6 @@
 package com.example.Acmeplex.controllers;
 
-import com.example.Acmeplex.convertor.MovieConvertor;
+import com.example.Acmeplex.convertors.MovieConvertor;
 import com.example.Acmeplex.entities.Movie;
 import com.example.Acmeplex.response.MovieResponse;
 import com.example.Acmeplex.services.MovieService;
@@ -62,20 +62,20 @@ public class MovieController {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
     }
-    
+
     @GetMapping("/all")
     public ResponseEntity<Page<MovieResponse>> getAllMovies(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(defaultValue = "title") String sortBy,
             @RequestParam(defaultValue = "ASC") String sortDirection) {
-    
+
         Page<Movie> movies = movieService.getMoviesWithPagination(
                 PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(sortDirection), sortBy)));
         Page<MovieResponse> responses = movies.map(MovieConvertor::toMovieResponse);
         return new ResponseEntity<>(responses, HttpStatus.OK);
     }
-    
+
     @GetMapping("/genre")
     public ResponseEntity<Page<MovieResponse>> getMoviesByGenre(
             @RequestParam Genre genre,
@@ -103,7 +103,7 @@ public class MovieController {
         Page<MovieResponse> responses = movies.map(MovieConvertor::toMovieResponse);
         return new ResponseEntity<>(responses, HttpStatus.OK);
     }
-    
+
     @GetMapping("/search")
     public ResponseEntity<List<MovieResponse>> findMoviesByTitle(@RequestParam String title) {
         List<Movie> movies = movieService.findMoviesByTitle(title);

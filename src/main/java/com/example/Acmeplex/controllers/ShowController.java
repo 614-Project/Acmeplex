@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.*;
 // import org.springframework.web.bind.annotation.RestController;
 
 import com.example.Acmeplex.entities.Show;
-// import com.example.Acmeplex.request.ShowRequest;
-// import com.example.Acmeplex.request.ShowSeatRequest;
+import com.example.Acmeplex.request.ShowRequest;
+import com.example.Acmeplex.request.ShowSeatRequest;
 import com.example.Acmeplex.services.ShowService;
 
 @RestController
@@ -30,25 +30,24 @@ public class ShowController {
         return showService.getShowsByMovieAndTheater(movieId, theaterId);
     }
 
-    // @PostMapping("/addNew")
-    // public ResponseEntity<String> addShow(@RequestBody ShowRequest showRequest) {
-    // try {
-    // String result = showService.addShow(showRequest);
-    // return new ResponseEntity<>(result, HttpStatus.CREATED);
-    // } catch (Exception e) {
-    // return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-    // }
-    // }
+    @PostMapping("/addNew")
+    public ResponseEntity<String> addShow(@RequestBody ShowRequest showRequest) {
+        try {
+            String result = showService.addShow(showRequest);
+            return new ResponseEntity<>(result, HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
 
-    // @PostMapping("/associateSeats")
-    // public ResponseEntity<String> associateShowSeats(@RequestBody ShowSeatRequest
-    // showSeatRequest) {
-    // try {
-    // String result = showService.associateShowSeats(showSeatRequest);
-    // return new ResponseEntity<>(result, HttpStatus.CREATED);
-    // } catch (Exception e) {
-    // return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-    // }
-    // }
+    @PostMapping("/associateSeats")
+    public ResponseEntity<String> associateShowSeats(@RequestBody ShowSeatRequest showSeatRequest) {
+        try {
+            String result = showService.associateShowSeats(showSeatRequest);
+            return new ResponseEntity<>(result, HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
 
 }
