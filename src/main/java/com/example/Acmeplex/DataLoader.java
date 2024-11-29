@@ -1,15 +1,21 @@
 // package com.example.Acmeplex;
 
+// import java.util.List;
 // import java.util.stream.Collectors;
 
 // import org.springframework.beans.factory.annotation.Autowired;
 // import org.springframework.boot.CommandLineRunner;
 // import org.springframework.stereotype.Component;
 
+// import com.example.Acmeplex.dataGenerator.MovieRequestGenerator;
+// import com.example.Acmeplex.dataGenerator.ShowRequestGenerator;
+// import com.example.Acmeplex.dataGenerator.TheaterRequestGenerator;
+// import com.example.Acmeplex.dataGenerator.TheaterSeatRequestGenerator;
 // import com.example.Acmeplex.entities.Movie;
 // import com.example.Acmeplex.entities.Show;
 // import com.example.Acmeplex.entities.Theater;
 // import com.example.Acmeplex.entities.TheaterSeat;
+// import com.example.Acmeplex.request.MovieRequest;
 // import com.example.Acmeplex.services.MovieService;
 // import com.example.Acmeplex.services.ShowService;
 // import com.example.Acmeplex.services.TheaterService;
@@ -29,21 +35,31 @@
 // @Override
 // public void run(String... args) throws Exception {
 // // Add Movie data
-// List<Movie> movies = MovieRequestGenerator.generateRequests().stream()
-// .map(request -> new Movie(request.getTitle(), request.getDescription(),
-// request.getDuration(),
-// request.getGenre(), request.getMovieType(), request.getReleaseDate(),
-// request.getRating(),
-// request.getDirector(), request.getCast(), request.getUrl(),
-// request.getTrailerUrl()))
-// .collect(Collectors.toList());
-// movies.forEach(movie -> movieService.createMovie(movie));
+// List<MovieRequest> movieRequests = MovieRequestGenerator.generateRequests();
+// List<Movie> movies =
+// movieRequests.stream().map(convertors::MovieConvertor).collect(Collectors.toList());
+// movies.forEach(movieService::saveMovie); }
+
+// // List<Movie> movies = MovieRequestGenerator.generateRequests().stream()
+// // .map(request -> new Movie(request.getTitle(),
+// // request.getDescription(),
+// // request.getDuration(),
+// // request.getGenre(),
+// // request.getMovieType(),
+// // request.getReleaseDate(),
+// // request.getRating(),
+// // request.getDirector(),
+// // request.getCast(),
+// // request.getUrl(),
+// // request.getTrailerUrl()))
+// // .collect(Collectors.toList());
+// // movies.forEach(movie -> movieService.addMovie(movie));
 
 // // Add Theater data
 // List<Theater> theaters = TheaterRequestGenerator.generateRequests().stream()
 // .map(request -> new Theater(request.getName(), request.getAddress()))
 // .collect(Collectors.toList());
-// theaters.forEach(theater -> theaterService.createTheater(theater));
+// theaters.forEach(theater -> theaterService.addTheater(theater));
 
 // // Add TheaterSeat data
 // List<TheaterSeat> theaterSeats =

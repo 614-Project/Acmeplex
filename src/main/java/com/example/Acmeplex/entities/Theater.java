@@ -9,6 +9,9 @@ import lombok.NoArgsConstructor;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 @Entity
 @Table(name = "THEATERS")
 @Data
@@ -33,6 +36,7 @@ public class Theater {
     @OneToMany(mappedBy = "theater", cascade = CascadeType.ALL)
     private List<TheaterSeat> theaterSeatList = new ArrayList<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "theater", cascade = CascadeType.ALL)
     private List<Show> showList = new ArrayList<>();
 }

@@ -2,6 +2,7 @@ package com.example.Acmeplex.entities;
 
 import com.example.Acmeplex.enums.Genre;
 import com.example.Acmeplex.enums.MovieType;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

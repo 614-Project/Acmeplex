@@ -111,40 +111,4 @@ public class ShowService {
         return "Show seats have been associated successfully";
     }
 
-    // // method to create a show
-    // public Show createShow(Show show) {
-    // return showRepository.save(show);
-    // }
-
-    // // Read/Get all Shows
-    // public List<Show> getAllShows() {
-    // return showRepository.findAll();
-    // }
-
-    // // Read/Get a Show by ID
-    // public Optional<Show> getShowById(Integer id) {
-    // return showRepository.findById(id);
-    // }
-
-    // // Update an existing Show
-    // public Show updateShow(Integer id, Show showDetails) {
-    // Show show = showRepository.findById(id)
-    // .orElseThrow(() -> new ResourceNotFoundException("Show not found for this id
-    // :: " + id));
-    // show.setMovie(showDetails.getMovie());
-    // show.setTheater(showDetails.getTheater());
-    // show.setTime(showDetails.getTime());
-    // show.setDate(showDetails.getDate());
-    // show.setPrice(showDetails.getPrice());
-    // final Show updatedShow = showRepository.save(show);
-    // return updatedShow;
-    // }
-
-    // // Delete a Show
-    // public void deleteShow(Integer id) { Show show =
-    // showRepository.findById(id).orElseThrow(() -> new
-    // ResourceNotFoundException("Show not found for this id
-    // // :: " + id));
-    // showRepository.delete(show); }
-
 }

@@ -1,6 +1,9 @@
 package com.example.Acmeplex.request;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 // import jakarta.validation.constraints.DecimalMax;
 // import jakarta.validation.constraints.DecimalMin;
@@ -18,9 +21,13 @@ import lombok.Data;
 // import java.util.List;
 
 import java.time.LocalTime;
-import java.util.Date;
+// import java.util.Date;
+import java.sql.Date;
 
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class ShowRequest {
     private LocalTime showStartTime;
     private Date showDate;
