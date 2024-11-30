@@ -39,4 +39,10 @@ public class Theater {
     @JsonIgnore
     @OneToMany(mappedBy = "theater", cascade = CascadeType.ALL)
     private List<Show> showList = new ArrayList<>();
+
+    public Theater(String name, String location) {
+    this.name = name;
+    this.address = location;
+}
+
 }

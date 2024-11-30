@@ -44,6 +44,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.Acmeplex.repositories.TicketRepository;
+import com.example.Acmeplex.request.PaymentRequest;
 import com.example.Acmeplex.request.TicketRequest;
 import com.example.Acmeplex.response.StripeResponse;
 import com.example.Acmeplex.services.PaymentService;
@@ -62,8 +63,8 @@ public class PaymentController {
     
 
     @PostMapping("/checkout")
-    public ResponseEntity<StripeResponse> checkoutProducts(@RequestBody TicketRequest ticketRequest) {
-        StripeResponse stripeResponse = paymentService.checkoutProducts(ticketRequest);
+    public ResponseEntity<StripeResponse> checkoutProducts(@RequestBody PaymentRequest paymentRequest) {
+        StripeResponse stripeResponse = paymentService.checkoutProducts(paymentRequest);
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(stripeResponse);

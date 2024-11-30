@@ -6,6 +6,8 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
+import com.example.Acmeplex.entities.Movie;
+import com.example.Acmeplex.entities.Show;
 import com.example.Acmeplex.entities.Ticket;
 
 // @Service
@@ -63,16 +65,21 @@ public class EmailService {
     }
 
     public void sendTicketDetailsEmail(String email, Ticket ticket, String customerName) {
+        Show show = ticket.getShow();
+        Movie movie = show.getMovie();
+        String Movie = movie.getTitle();
         String ticketBody = String.format(
             "Dear %s,%n" +
             "Your ticket has been confirmed. The details are as follows:%n%n" +
             "Show Time: %s%n" +
             "Ticket ID: %s%n" +
-            "Movie Name: %s%n",
+            "Movie Name: %s%n" +
+            "Seat Number: %s%n",
             customerName,
             ticket.getShowTime(),
             ticket.getId(),
-            ticket.getMovieName()
+            Movie,
+            ticket.getBookedSeats()
         );
         sendEmail(email, "Ticket Confirmation", ticketBody);
     }

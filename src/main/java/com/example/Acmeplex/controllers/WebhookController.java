@@ -61,7 +61,7 @@ public class WebhookController {
                 Payment payment = new Payment();
                 
                 ticket.setStatus("PAID");
-                ticket.setCreatedDate(LocalDateTime.now());
+                //ticket.setCreatedDate(LocalDateTime.now());
                 ticket.setExpireDate(LocalDateTime.now().plusDays(3));
                 payment .setCustomerEmail(customerEmail);
                 payment.setCustomerName(customerName);

@@ -1,46 +1,9 @@
-// package com.example.Acmeplex.entities;
-
-// import jakarta.persistence.*;
-// import lombok.AllArgsConstructor;
-// import lombok.Builder;
-// import lombok.Data;
-// import lombok.NoArgsConstructor;
-// import org.hibernate.annotations.CreationTimestamp;
-
-// import java.sql.Date;
-
-// @Entity
-// @Table(name = "TICKETS")
-// @Data
-// @Builder
-// @NoArgsConstructor
-// @AllArgsConstructor
-// public class Ticket {
-
-//     @Id
-//     @GeneratedValue(strategy = GenerationType.IDENTITY)
-//     private Integer ticketId;
-
-//     private Integer totalTicketsPrice;
-
-//     private String bookedSeats;
-
-//     @CreationTimestamp
-//     private Date bookedAt;
-
-//     @ManyToOne
-//     @JoinColumn
-//     private Show showtime;
-
-//     @ManyToOne
-//     @JoinColumn
-//     private User user;
-
-// }
-
 package com.example.Acmeplex.entities;
 
+import java.sql.Date;
 import java.time.LocalDateTime;
+
+import org.hibernate.annotations.CreationTimestamp;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -48,6 +11,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
@@ -76,41 +41,30 @@ public class Ticket {
     @Column(name = "session_id")
     private String sessionId;
 
-    @Column(name = "Location")
-    private String location;
+    // @Column(name = "Location")
+    // private String location;
 
-    @Column(name = "amount")
-    private Long amount;
+    @Column(name = "total_price")
+	private Long totalTicketsPrice;
 
-    @Column(name = "movie_name")
-    private String movieName;
+    @Column(name = "bookedSeats")
+	private String bookedSeats;
 
-    @Column(name = "currency")
-    private String currency = "USD";
+	@CreationTimestamp
+	private Date bookedAt;
 
-    @Column(name = "total")
-    private Long total;
-
-    @Column(name = "quantity")
-    private Long quantity;
-
-    @Column(name = "seat")
-    private String seat;
+	@ManyToOne
+	@JoinColumn
+	private Show show;
 
     @Column(name = "show_time")
     private LocalDateTime showTime;
-
-    @Column(name = "createdDate")
-    private LocalDateTime createdDate;
 
     @Column(name = "expireDate")
     private LocalDateTime expireDate;
 
     @Column(name = "status")
-    private String status = "pending";
-
-    // @OneToOne(mappedBy = "ticket")  // This refers to the Payment entity's "ticket" field
-    // private Payment payment;
+    private String status = "PENDING";
 
     @OneToOne(mappedBy = "ticket", cascade = CascadeType.ALL)
     private Payment payment;

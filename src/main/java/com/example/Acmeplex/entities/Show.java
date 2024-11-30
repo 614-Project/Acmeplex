@@ -47,7 +47,7 @@ public class Show {
     @OneToMany(mappedBy = "show", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<ShowSeat> showSeatList = new ArrayList<>();
 
-    // @OneToMany(mappedBy = "show", cascade = CascadeType.ALL, fetch =
-    // FetchType.LAZY)
-    // private List<Ticket> ticketList = new ArrayList<>();
+    @OneToMany(mappedBy = "show", cascade = CascadeType.ALL, fetch =
+    FetchType.LAZY)
+    private List<Ticket> ticketList = new ArrayList<>();
 }

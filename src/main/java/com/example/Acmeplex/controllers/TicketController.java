@@ -19,20 +19,21 @@ import com.example.Acmeplex.services.TicketService;
 @RequestMapping("/ticket")
 public class TicketController {
 
+    @Autowired
     private TicketService ticketService;
 
     @Autowired
     TicketRepository ticketRepository;
 
-	// @PostMapping("/book")
-	// public ResponseEntity<Object> ticketBooking(@RequestBody TicketRequest ticketRequest) {
-	// 	try {
-	// 		TicketResponse result = ticketService.ticketBooking(ticketRequest);
-	// 		return new ResponseEntity<>(result, HttpStatus.CREATED);
-	// 	} catch (Exception e) {
-	// 		return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-	// 	}
-	// }
+	@PostMapping("/book")
+	public ResponseEntity<Object> ticketBooking(@RequestBody TicketRequest ticketRequest) {
+		try {
+			TicketResponse result = ticketService.ticketBooking(ticketRequest);
+			return new ResponseEntity<>(result, HttpStatus.CREATED);
+		} catch (Exception e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
+	}
 
     @PostMapping("/cancel")
     public void cancelTicket(@RequestParam Long ticketNumber){
