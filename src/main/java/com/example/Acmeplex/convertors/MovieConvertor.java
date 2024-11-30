@@ -1,4 +1,4 @@
-package com.example.Acmeplex.convertor;
+package com.example.Acmeplex.convertors;
 
 import com.example.Acmeplex.entities.Movie;
 import com.example.Acmeplex.request.MovieRequest;
@@ -24,17 +24,17 @@ public class MovieConvertor {
 
   public static Movie toMovie(MovieRequest movieRequest) {
     return Movie.builder()
-            .title(movieRequest.getTitle())
-            .description(movieRequest.getDescription())
-            .duration(movieRequest.getDuration())
-            .genre(movieRequest.getGenre())
-            .movieType(movieRequest.getMovieType())
-            .releaseDate(movieRequest.getReleaseDate())
-            .rating(movieRequest.getRating())
-            .director(movieRequest.getDirector())
-            .cast(movieRequest.getCast())
-            .url(movieRequest.getUrl())
-            .trailerUrl(movieRequest.getTrailerUrl())
-            .build();
+        .title(movieRequest.getTitle())
+        .description(movieRequest.getDescription())
+        .duration(movieRequest.getDuration())
+        .genre(movieRequest.getGenre())
+        .movieType(movieRequest.getMovieType())
+        .releaseDate(movieRequest.getReleaseDate())
+        .rating(movieRequest.getRating())
+        .director(movieRequest.getDirector())
+        .cast(movieRequest.getCast())
+        .url(movieRequest.getUrl())
+        .trailerUrl(movieRequest.getTrailerUrl())
+        .build();
   }
 }

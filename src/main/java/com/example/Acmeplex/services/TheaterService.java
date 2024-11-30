@@ -1,19 +1,23 @@
 package com.example.Acmeplex.services;
 
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.Acmeplex.convertors.TheaterConvertor;
+import com.example.Acmeplex.entities.Movie;
+import com.example.Acmeplex.entities.ShowSeat;
 import com.example.Acmeplex.entities.Theater;
 import com.example.Acmeplex.entities.TheaterSeat;
-import com.example.Acmeplex.exceptions.TheaterDoesNotExist;
+import com.example.Acmeplex.exceptions.SeatsNotAvailable;
 import com.example.Acmeplex.exceptions.TheaterAlreadyExists;
+import com.example.Acmeplex.exceptions.TheaterDoesNotExist;
 import com.example.Acmeplex.repositories.TheaterRepository;
 import com.example.Acmeplex.request.TheaterRequest;
 import com.example.Acmeplex.request.TheaterSeatRequest;
-
-import java.util.List;
-import java.util.Optional;
 
 @Service
 public class TheaterService {
@@ -33,71 +37,9 @@ public class TheaterService {
 		return "Theater has been saved Successfully";
 	}
 
-	// Method to get all theaters
-	public List<Theater> getAllTheaters() {
-		return theaterRepository.findAll();
-	}
+	public List<Theater> findAllByMovieId(Integer movieId) {
+		return theaterRepository.findAllByMovieid(movieId);
 
-	// Method to get a theater by ID
-	public Optional<Theater> getTheaterById(Integer id) {
-		return theaterRepository.findById(id);
-	}
-
-	// method to find a theatre by name
-	public Optional<Theater> getTheaterByName(String name) {
-		return theaterRepository.findByNameIgnoreCase(name);
-	}
-
-	// Method to update theater data by ID
-	public String updateTheaterById(Integer id, TheaterRequest theaterRequest) throws TheaterDoesNotExist {
-		Optional<Theater> theaterOpt = theaterRepository.findById(id);
-
-		if (theaterOpt.isEmpty()) {
-			throw new TheaterDoesNotExist();
-		}
-
-		Theater theater = theaterOpt.get();
-		theater.setName(theaterRequest.getName());
-		theater.setAddress(theaterRequest.getAddress());
-		theaterRepository.save(theater);
-		return "Theater has been updated Successfully";
-	}
-
-	// method to update theatre by name
-	public String updateTheaterByName(String name, TheaterRequest theaterRequest) throws TheaterDoesNotExist {
-		Optional<Theater> theaterOpt = theaterRepository.findByNameIgnoreCase(name);
-
-		if (theaterOpt.isEmpty()) {
-			throw new TheaterDoesNotExist();
-		}
-
-		Theater theater = theaterOpt.get();
-		theater.setName(theaterRequest.getName());
-		theater.setAddress(theaterRequest.getAddress());
-		theaterRepository.save(theater);
-
-		return "Theater has been updated Successfully";
-
-	}
-
-	// method to delete theatre by ID
-	public String deleteTheaterById(Integer id) throws TheaterDoesNotExist {
-		Optional<Theater> theaterOpt = theaterRepository.findById(id);
-		if (theaterOpt.isEmpty()) {
-			throw new TheaterDoesNotExist();
-		}
-		theaterRepository.deleteById(id);
-		return "Theater has been deleted Successfully";
-	}
-
-	// Method to delete a theater by name
-	public String deleteTheaterByName(String name) throws TheaterDoesNotExist {
-		Optional<Theater> theaterOpt = theaterRepository.findByNameIgnoreCase(name);
-		if (theaterOpt.isEmpty()) {
-			throw new TheaterDoesNotExist();
-		}
-		theaterRepository.delete(theaterOpt.get());
-		return "Theater has been deleted Successfully";
 	}
 
 	// method to add theatreseats to the database
@@ -134,6 +76,11 @@ public class TheaterService {
 		}
 		theaterRepository.save(theater);
 		return "Theater Seats have been added successfully";
+	}
+
+	public List<ShowSeat> getSeatsByShowId(Integer showId) {
+		return theaterRepository.findSeatsByShowId(showId);
+
 	}
 
 }

@@ -6,8 +6,11 @@ public enum Genre {
   ACTION,
   ROMANTIC,
   COMEDY,
+  CRIME,
   HISTORICAL,
   ANIMATION,
+  ROMANCE,
+  SCI_FI,
   SPORTS,
   SOCIAL,
   WAR

@@ -26,25 +26,35 @@ public class MovieService {
 
     // Update an existing movie
     public Movie updateMovie(Integer id, MovieRequest movieRequest) {
-      Movie existingMovie = movieRepository.findById(id)
-              .orElseThrow(() -> new MovieNotFoundException("Movie not found with ID: " + id));
-  
-      // Update only non-null fields
-      if (movieRequest.getTitle() != null) existingMovie.setTitle(movieRequest.getTitle());
-      if (movieRequest.getDescription() != null) existingMovie.setDescription(movieRequest.getDescription());
-      if (movieRequest.getDuration() != null) existingMovie.setDuration(movieRequest.getDuration());
-      if (movieRequest.getGenre() != null) existingMovie.setGenre(movieRequest.getGenre());
-      if (movieRequest.getMovieType() != null) existingMovie.setMovieType((movieRequest.getMovieType()));
-      if (movieRequest.getReleaseDate() != null) existingMovie.setReleaseDate(movieRequest.getReleaseDate());
-      if (movieRequest.getRating() != null) existingMovie.setRating(movieRequest.getRating());
-      if (movieRequest.getDirector() != null) existingMovie.setDirector(movieRequest.getDirector());
-      if (movieRequest.getCast() != null) existingMovie.setCast(movieRequest.getCast());
-      if (movieRequest.getUrl() != null) existingMovie.setUrl(movieRequest.getUrl());
-      if (movieRequest.getTrailerUrl() != null) existingMovie.setTrailerUrl(movieRequest.getTrailerUrl());
-  
-      return movieRepository.save(existingMovie);
+        Movie existingMovie = movieRepository.findById(id)
+                .orElseThrow(() -> new MovieNotFoundException("Movie not found with ID: " + id));
+
+        // Update only non-null fields
+        if (movieRequest.getTitle() != null)
+            existingMovie.setTitle(movieRequest.getTitle());
+        if (movieRequest.getDescription() != null)
+            existingMovie.setDescription(movieRequest.getDescription());
+        if (movieRequest.getDuration() != null)
+            existingMovie.setDuration(movieRequest.getDuration());
+        if (movieRequest.getGenre() != null)
+            existingMovie.setGenre(movieRequest.getGenre());
+        if (movieRequest.getMovieType() != null)
+            existingMovie.setMovieType((movieRequest.getMovieType()));
+        if (movieRequest.getReleaseDate() != null)
+            existingMovie.setReleaseDate(movieRequest.getReleaseDate());
+        if (movieRequest.getRating() != null)
+            existingMovie.setRating(movieRequest.getRating());
+        if (movieRequest.getDirector() != null)
+            existingMovie.setDirector(movieRequest.getDirector());
+        if (movieRequest.getCast() != null)
+            existingMovie.setCast(movieRequest.getCast());
+        if (movieRequest.getUrl() != null)
+            existingMovie.setUrl(movieRequest.getUrl());
+        if (movieRequest.getTrailerUrl() != null)
+            existingMovie.setTrailerUrl(movieRequest.getTrailerUrl());
+
+        return movieRepository.save(existingMovie);
     }
-  
 
     // Delete a movie by ID
     public void deleteMovie(Integer id) {
@@ -78,4 +88,3 @@ public class MovieService {
         return movies;
     }
 }
-

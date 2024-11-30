@@ -1,6 +1,5 @@
 package com.example.Acmeplex.controllers;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.Acmeplex.config.JWTService;
 import com.example.Acmeplex.config.UserInfoUserDetails;
-import com.example.Acmeplex.convertor.UserConvertor;
+import com.example.Acmeplex.convertors.UserConvertor;
 import com.example.Acmeplex.entities.User;
 import com.example.Acmeplex.request.UserRequest;
 import com.example.Acmeplex.response.UserResponse;
@@ -30,28 +29,27 @@ import com.example.Acmeplex.services.UserService;
 @RequestMapping("/user")
 public class UserController {
 
-	@Autowired
-	private UserService userService;
+    @Autowired
+    private UserService userService;
 
-	@Autowired
-	private AuthenticationManager authenticationManager;
+    @Autowired
+    private AuthenticationManager authenticationManager;
 
-	@Autowired
-	private JWTService jwtService;
+    @Autowired
+    private JWTService jwtService;
 
+    // Register a user
+    @PostMapping("/addNew")
+    public ResponseEntity<AuthResponse> addNewUser(@RequestBody UserRequest userEntryDto) {
+        try {
+            AuthResponse result = userService.addUser(userEntryDto); // Call the updated service method
+            return new ResponseEntity<>(result, HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
+    }
 
-	//Register a user
-	@PostMapping("/addNew")
-	public ResponseEntity<AuthResponse> addNewUser(@RequestBody UserRequest userEntryDto) {
-		try {
-			AuthResponse result = userService.addUser(userEntryDto); // Call the updated service method
-			return new ResponseEntity<>(result, HttpStatus.CREATED);
-		} catch (Exception e) {
-			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
-		}
-	}
-
-	//Login 
+    // Login
     @PostMapping("/login")
     public ResponseEntity<AuthResponse> login(@RequestBody AuthRequest authRequest) {
         Authentication authentication = authenticationManager.authenticate(
@@ -80,9 +78,10 @@ public class UserController {
         }
     }
 
-	//Update user
+    // Update user
     @PutMapping("/{id}")
-    public ResponseEntity<UserResponse> updateUserProfile(@PathVariable Integer id, @RequestBody UserRequest userRequest) {
+    public ResponseEntity<UserResponse> updateUserProfile(@PathVariable Integer id,
+            @RequestBody UserRequest userRequest) {
         try {
             UserResponse updatedUser = userService.updateUser(id, userRequest);
             return new ResponseEntity<>(updatedUser, HttpStatus.OK);
@@ -91,35 +90,34 @@ public class UserController {
         }
     }
 
-	//Delete user
+    // Delete user
     @DeleteMapping("/{id}")
     public ResponseEntity<UserResponse> deleteUserProfile(@PathVariable Integer id) {
         try {
-			userService.deleteUser(id); 
+            userService.deleteUser(id);
             return new ResponseEntity<>(null, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
     }
-	
-	@PostMapping("/getToken")
-	public ResponseEntity<AuthResponse> authenticateAndGetToken(@RequestBody AuthRequest authRequest) {
-    Authentication authentication = authenticationManager.authenticate(
-            new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword()));
 
-    if (authentication.isAuthenticated()) {
-        UserInfoUserDetails userDetails = (UserInfoUserDetails) authentication.getPrincipal();
-        User user = userDetails.getUser(); // Extract the user from UserInfoUserDetails
-        String token = jwtService.generateToken(user.getEmail());
+    @PostMapping("/getToken")
+    public ResponseEntity<AuthResponse> authenticateAndGetToken(@RequestBody AuthRequest authRequest) {
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword()));
 
-        UserResponse userResponse = UserConvertor.userToUserDto(user);
-        AuthResponse authResponse = new AuthResponse(token, userResponse);
+        if (authentication.isAuthenticated()) {
+            UserInfoUserDetails userDetails = (UserInfoUserDetails) authentication.getPrincipal();
+            User user = userDetails.getUser(); // Extract the user from UserInfoUserDetails
+            String token = jwtService.generateToken(user.getEmail());
 
-        return ResponseEntity.ok(authResponse);
+            UserResponse userResponse = UserConvertor.userToUserDto(user);
+            AuthResponse authResponse = new AuthResponse(token, userResponse);
+
+            return ResponseEntity.ok(authResponse);
+        }
+
+        throw new UsernameNotFoundException("Invalid user details.");
     }
-
-    throw new UsernameNotFoundException("Invalid user details.");
-}
-
 
 }
