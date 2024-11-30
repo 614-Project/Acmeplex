@@ -2,13 +2,18 @@ package com.example.Acmeplex.controllers;
 
 import com.example.Acmeplex.convertors.MovieConvertor;
 import com.example.Acmeplex.entities.Movie;
+import com.example.Acmeplex.entities.User;
 import com.example.Acmeplex.response.MovieResponse;
+import com.example.Acmeplex.services.EmailService;
 import com.example.Acmeplex.services.MovieService;
 import com.example.Acmeplex.exceptions.MovieNotFoundException;
+import com.example.Acmeplex.repositories.UserRepository;
 import com.example.Acmeplex.request.MovieRequest;
 import com.example.Acmeplex.enums.Genre;
 
 import java.util.List;
+
+import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +22,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.MailException;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -25,12 +31,29 @@ public class MovieController {
 
     @Autowired
     private MovieService movieService;
+    
+    @Autowired
+    private EmailService emailService;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @PostMapping("/addNew")
     public ResponseEntity<MovieResponse> addMovie(@Valid @RequestBody MovieRequest movieRequest) {
         Movie movie = MovieConvertor.toMovie(movieRequest);
         Movie savedMovie = movieService.addMovie(movie);
         MovieResponse movieResponse = MovieConvertor.toMovieResponse(savedMovie);
+        
+        List<User> users = userRepository.findAll();  // Fetch all users
+
+        for (User user : users) {
+            try {
+                emailService.sendMovieAddedEmail(user.getEmail(), movie.getTitle());
+            } catch (MailException  e) {
+                e.printStackTrace();  // Handle error (e.g., log it)
+            }
+        }
+        //emailService.sendMovieAddedEmail( email,  movieName);
 
         return new ResponseEntity<>(movieResponse, HttpStatus.CREATED);
     }

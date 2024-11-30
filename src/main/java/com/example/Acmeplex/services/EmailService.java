@@ -84,6 +84,17 @@ public class EmailService {
         sendEmail(email, "Ticket Confirmation", ticketBody);
     }
 
+    public void sendMovieAddedEmail(String email, String movieName) {
+        String paymentBody = String.format(
+            "Dear Customer,%n" +
+            "New movie has been available to watch on the theater. " +
+            "The newest Movie is: %s %n%n",
+            movieName
+        );
+        sendEmail(email, "Movie Promotion", paymentBody);
+    }
+
+
     private void sendEmail(String to, String subject, String body) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(to);
