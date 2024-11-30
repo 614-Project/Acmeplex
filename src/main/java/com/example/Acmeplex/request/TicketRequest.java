@@ -1,16 +1,18 @@
-// package com.example.Acmeplex.request;
+package com.example.Acmeplex.request;
 
-// import lombok.Data;
+import java.time.LocalDateTime;
 
-// import java.util.List;
+import lombok.Data;
 
-// @Data
-// public class TicketRequest {
-// private Integer showId;
-// private Integer userId;
-// private List<String> requestSeats;
-// }
-
-// public class TicketRequest {
-
-// }
+@Data
+public class TicketRequest {
+        private String movieName;
+        private Long amount;
+        private String location;
+        private String seat;        
+        private LocalDateTime showTime;
+        private Long total;
+        private String sessionID;
+        private String currency;
+        private long quantity;
+}
