@@ -6,48 +6,11 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
+import com.example.Acmeplex.entities.Credit;
 import com.example.Acmeplex.entities.Movie;
 import com.example.Acmeplex.entities.Show;
 import com.example.Acmeplex.entities.Ticket;
 
-// @Service
-// public class EmailService {
-
-//     @Autowired
-//     private JavaMailSender mailSender;
-
-//     public void sendPaymentSuccessEmail(String toEmail, String emailBody) {
-//         SimpleMailMessage message = new SimpleMailMessage();
-//         message.setTo(toEmail);
-//         message.setSubject("Payment Confirmation");
-//         message.setText(emailBody);
-//         message.setFrom("meluxmeme@gmail.com");
-
-//         try {
-//             mailSender.send(message);
-//             System.out.println("Email sent successfully to " + toEmail);
-//         } catch (Exception e) {
-//             System.err.println("Error sending email: " + e.getMessage());
-//         }
-//     }
-
-//     //Send email for confirmation of ticket and details
-//     public void sendTicketEmail(String toEmail, String emailBody) {
-//         SimpleMailMessage message = new SimpleMailMessage();
-//         message.setTo(toEmail);
-//         message.setSubject("Ticket Information");
-//         message.setText(emailBody);
-//         message.setFrom("meluxmeme@gmail.com");
-
-//         try {
-//             mailSender.send(message);
-//             System.out.println("Email sent successfully to " + toEmail);
-//         } catch (Exception e) {
-//             System.err.println("Error sending email: " + e.getMessage());
-//         }
-//     }
-
-// }
 @Service
 public class EmailService {
 
@@ -71,12 +34,14 @@ public class EmailService {
         String ticketBody = String.format(
             "Dear %s,%n" +
             "Your ticket has been confirmed. The details are as follows:%n%n" +
+            "Show Date: %s%n" +
             "Show Time: %s%n" +
             "Ticket ID: %s%n" +
             "Movie Name: %s%n" +
             "Seat Number: %s%n",
             customerName,
-            ticket.getShowTime(),
+            show.getDate(),
+            show.getTime(),
             ticket.getId(),
             Movie,
             ticket.getBookedSeats()
@@ -92,6 +57,22 @@ public class EmailService {
             movieName
         );
         sendEmail(email, "Movie Promotion", paymentBody);
+    }
+
+    public void sendTicketCancelEmail(String email, Credit credit, String customerName) {
+        // Construct the email body using a formatted string
+        String ticketBody = String.format(
+            "Dear %s,%n" +
+            "Your ticket has been canceled. You have received store credit which must be used within a year.%n" +
+            "Credit: %s  points%n" +
+            "Expiration Date: %s",
+            customerName,
+            credit.getCredit(),
+            credit.getExpireDate()
+        );
+    
+        // Send the email using a predefined method
+        sendEmail(email, "Ticket Cancellation Confirmation", ticketBody);
     }
 
 

@@ -159,6 +159,9 @@ public class TicketService {
     @Autowired
 	private ShowRepository showRepository;
 
+    @Autowired
+    private EmailService emailService;
+
 	public TicketResponse ticketBooking(TicketRequest ticketRequest) {
 		Optional<Show> showOpt = showRepository.findById(ticketRequest.getShowId());
 
@@ -287,6 +290,11 @@ public class TicketService {
 
             ticket.setStatus("CANCELED");
             ticketRepository.save(ticket);
+
+            //Send email to customer about ticket cancelation
+            String customerEmail = payment.getCustomerEmail();
+            String customerName = payment.getCustomerName();
+            emailService.sendTicketCancelEmail(customerEmail, credit, customerName);
 
             System.out.println("Ticket canceled successfully.");
         } else {

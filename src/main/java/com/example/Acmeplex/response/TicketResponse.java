@@ -20,4 +20,5 @@ public class TicketResponse {
     private String address;
     private String bookedSeats;
     private Long totalPrice;
+    private Long ticketId;
 }
