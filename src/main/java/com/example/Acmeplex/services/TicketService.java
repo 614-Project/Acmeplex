@@ -182,7 +182,7 @@ public class TicketService {
 		}
 
 		// count price
-		Long getPriceAndAssignSeats = getPriceAndAssignSeats(show.getShowSeatList(),	ticketRequest.getRequestSeats());
+		assignSeats(show.getShowSeatList(),	ticketRequest.getRequestSeats());
 
 		String seats = listToString(ticketRequest.getRequestSeats());
 
@@ -214,18 +214,27 @@ public class TicketService {
 		return true;
 	}
 
-	private Long getPriceAndAssignSeats(List<ShowSeat> showSeatList, List<String> requestSeats) {
-		Long totalAmount = 0L;
+	// private Long getPriceAndAssignSeats(List<ShowSeat> showSeatList, List<String> requestSeats) {
+	// 	Long totalAmount = 0L;
 
-		for (ShowSeat showSeat : showSeatList) {
-			if (requestSeats.contains(showSeat.getSeatNo())) {
-				totalAmount += showSeat.getPrice().longValue();
-				showSeat.setIsAvailable(Boolean.FALSE);
-			}
-		}
+	// 	for (ShowSeat showSeat : showSeatList) {
+	// 		if (requestSeats.contains(showSeat.getSeatNo())) {
+	// 			totalAmount += showSeat.getPrice().longValue();
+	// 			showSeat.setIsAvailable(Boolean.FALSE);
+	// 		}
+	// 	}
 
-		return totalAmount;
-	}
+	// 	return totalAmount;
+	// }
+    private void assignSeats(List<ShowSeat> showSeatList, List<String> requestSeats) {
+        // Iterate through the list of ShowSeat objects and update availability for requested seats
+        for (ShowSeat showSeat : showSeatList) {
+            if (requestSeats.contains(showSeat.getSeatNo())) {
+                showSeat.setIsAvailable(Boolean.FALSE); // Mark seat as unavailable
+            }
+        }
+    }
+    
 
 	private String listToString(List<String> requestSeats) {
 		StringBuilder sb = new StringBuilder();

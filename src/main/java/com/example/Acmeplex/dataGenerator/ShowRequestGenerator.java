@@ -29,9 +29,9 @@ public class ShowRequestGenerator {
         requests.add(new ShowRequest(LocalTime.parse("14:30:00"), Date.valueOf("2024-12-07"), 14, 14));
         requests.add(new ShowRequest(LocalTime.parse("16:30:00"), Date.valueOf("2024-12-08"), 16, 16));
         requests.add(new ShowRequest(LocalTime.parse("13:30:00"), Date.valueOf("2024-12-09"), 17, 17));
-        requests.add(new ShowRequest(LocalTime.parse("18:30:00"), Date.valueOf("2024-12-09"), 18, 18));
-        requests.add(new ShowRequest(LocalTime.parse("15:30:00"), Date.valueOf("2024-12-10"), 19, 19));
-        requests.add(new ShowRequest(LocalTime.parse("19:30:00"), Date.valueOf("2024-12-10"), 20, 20));
+        requests.add(new ShowRequest(LocalTime.parse("18:30:00"), Date.valueOf("2024-12-09"), 18, 10));
+        requests.add(new ShowRequest(LocalTime.parse("15:30:00"), Date.valueOf("2024-12-10"), 19, 11));
+        requests.add(new ShowRequest(LocalTime.parse("19:30:00"), Date.valueOf("2024-12-10"), 20, 12));
 
         return requests;
     }
