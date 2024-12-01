@@ -19,6 +19,8 @@ import com.example.Acmeplex.repositories.TheaterRepository;
 import com.example.Acmeplex.request.TheaterRequest;
 import com.example.Acmeplex.request.TheaterSeatRequest;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class TheaterService {
 
@@ -26,6 +28,7 @@ public class TheaterService {
 	private TheaterRepository theaterRepository;
 
 	// method to add theater data to the database
+	@Transactional
 	public String addTheater(TheaterRequest theaterRequest) throws TheaterAlreadyExists {
 		if (theaterRepository.findByAddress(theaterRequest.getAddress()) != null) {
 			throw new TheaterAlreadyExists();
@@ -43,6 +46,7 @@ public class TheaterService {
 	}
 
 	// method to add theatreseats to the database
+	@Transactional
 	public String addTheaterSeat(TheaterSeatRequest entryDto) throws TheaterDoesNotExist {
 		if (theaterRepository.findByAddress(entryDto.getAddress()) == null) {
 			throw new TheaterDoesNotExist();

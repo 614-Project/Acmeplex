@@ -61,7 +61,7 @@ public class Movie {
 
     private String trailerUrl;
 
-    @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Show> shows = new ArrayList<>();
 
     public Movie(String title, String description, Integer duration, Genre genre, 

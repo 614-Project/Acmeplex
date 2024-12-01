@@ -36,18 +36,22 @@ public class Show {
 
     private Date date;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "movieId")
     private Movie movie;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "theaterId")
     private Theater theater;
 
-    @OneToMany(mappedBy = "show", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "show", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<ShowSeat> showSeatList = new ArrayList<>();
 
     @OneToMany(mappedBy = "show", cascade = CascadeType.ALL, fetch =
-    FetchType.LAZY)
+    FetchType.EAGER)
     private List<Ticket> ticketList = new ArrayList<>();
+
+    public Show(LocalTime showStartTime, java.sql.Date showDate, Integer theaterId, Integer movieId) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }

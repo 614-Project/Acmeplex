@@ -37,7 +37,7 @@ public class Theater {
     private List<TheaterSeat> theaterSeatList = new ArrayList<>();
 
     @JsonIgnore
-    @OneToMany(mappedBy = "theater", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "theater", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Show> showList = new ArrayList<>();
 
     public Theater(String name, String location) {

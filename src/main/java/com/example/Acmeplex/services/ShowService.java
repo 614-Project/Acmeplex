@@ -21,6 +21,8 @@ import com.example.Acmeplex.repositories.TheaterRepository;
 import com.example.Acmeplex.request.ShowRequest;
 import com.example.Acmeplex.request.ShowSeatRequest;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class ShowService {
 
@@ -34,11 +36,13 @@ public class ShowService {
     private ShowRepository showRepository;
 
     // Method to get list of shows available for a particular movie and theatre.
+    @Transactional
     public List<Show> getShowsByMovieAndTheater(Integer movieId, Integer theaterId) {
         return showRepository.findShowsByMovieAndTheater(movieId, theaterId);
     }
 
     // This method is used to add a show to the database
+    @Transactional
     public String addShow(ShowRequest showRequest) {
 
         Show show = ShowConvertor.showDtoToShow(showRequest);
@@ -77,6 +81,7 @@ public class ShowService {
 
     // this method associates seats with a show by creating showseat entities for
     // each seat
+    @Transactional
     public String associateShowSeats(ShowSeatRequest showSeatRequest) throws ShowDoesNotExist {
 
         Optional<Show> showOpt = showRepository.findById(showSeatRequest.getShowId());
