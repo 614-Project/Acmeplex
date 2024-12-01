@@ -1,5 +1,7 @@
 package com.example.Acmeplex.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,7 +25,8 @@ public class TheaterSeat {
     private Integer id;
 
     private String seatNo;
-
+    
+    @JsonBackReference
     @ManyToOne
     @JoinColumn
     private Theater theater;

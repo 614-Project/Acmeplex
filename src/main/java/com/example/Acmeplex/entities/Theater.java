@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -33,10 +34,11 @@ public class Theater {
     @Column(unique = true)
     private String address;
 
+    @JsonBackReference
     @OneToMany(mappedBy = "theater", cascade = CascadeType.ALL)
     private List<TheaterSeat> theaterSeatList = new ArrayList<>();
 
-    @JsonIgnore
+    @JsonBackReference
     @OneToMany(mappedBy = "theater", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Show> showList = new ArrayList<>();
 

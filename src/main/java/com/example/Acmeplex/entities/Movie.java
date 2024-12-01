@@ -3,6 +3,7 @@ package com.example.Acmeplex.entities;
 import com.example.Acmeplex.enums.Genre;
 import com.example.Acmeplex.enums.MovieType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -62,6 +63,7 @@ public class Movie {
     private String trailerUrl;
 
     @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JsonManagedReference 
     private List<Show> shows = new ArrayList<>();
 
     public Movie(String title, String description, Integer duration, Genre genre, 
