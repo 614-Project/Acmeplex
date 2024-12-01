@@ -1,12 +1,15 @@
-// package com.example.Acmeplex.repositories;
+package com.example.Acmeplex.repositories;
 
-// import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.Optional;
 
-// import com.example.Acmeplex.entities.Ticket;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-// public interface TicketRepository extends JpaRepository<Ticket, Integer> {
-// }
+import com.example.Acmeplex.entities.Ticket;
 
-// public class TicketRepository {
+@Repository
+public interface TicketRepository extends JpaRepository<Ticket, Long> {
 
-// }
+    Optional<Ticket> findBySessionId(String sessionId);
+    Optional<Ticket> findById(Long id);
+}

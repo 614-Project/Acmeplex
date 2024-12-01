@@ -18,7 +18,7 @@ public class ShowSeat {
 
     private Boolean isAvailable;
 
-    private Boolean isFoodContains;
+    // private Boolean isFoodContains;
 
     @ManyToOne
     @JoinColumn

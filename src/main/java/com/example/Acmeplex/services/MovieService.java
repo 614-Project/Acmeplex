@@ -2,6 +2,9 @@ package com.example.Acmeplex.services;
 
 import com.example.Acmeplex.exceptions.MovieNotFoundException;
 import com.example.Acmeplex.request.MovieRequest;
+
+import jakarta.transaction.Transactional;
+
 import com.example.Acmeplex.repositories.MovieRepository;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Page;
@@ -20,6 +23,7 @@ public class MovieService {
     private MovieRepository movieRepository;
 
     // Add a new movie
+    @Transactional
     public Movie addMovie(Movie movie) {
         return movieRepository.save(movie);
     }
@@ -75,11 +79,13 @@ public class MovieService {
         return movieRepository.findByRatingGreaterThanEqual(rating, pageable);
     }
 
+    @Transactional
     public Movie getMovieById(Integer id) {
         return movieRepository.findById(id)
                 .orElseThrow(() -> new MovieNotFoundException("Movie not found with ID: " + id));
     }
-
+    
+    @Transactional
     public List<Movie> findMoviesByTitle(String title) {
         List<Movie> movies = movieRepository.findByTitleContainingIgnoreCase(title);
         if (movies.isEmpty()) {
@@ -87,4 +93,5 @@ public class MovieService {
         }
         return movies;
     }
+    
 }

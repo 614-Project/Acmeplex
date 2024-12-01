@@ -48,7 +48,9 @@ public class User {
  
     // @Column(nullable = false) 
     // private Boolean isRegistered = false;
-    
+    @Column(name = "Credit", columnDefinition = "int default 0")
+    private Integer credit; 
+
     @Column(nullable = false)
     private String password;
     

@@ -8,12 +8,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
 import com.example.Acmeplex.entities.ShowSeat;
 import com.example.Acmeplex.entities.Show;
 import com.example.Acmeplex.entities.Theater;
 import com.example.Acmeplex.entities.TheaterSeat;
-
+@Repository
 public interface TheaterRepository extends JpaRepository<Theater, Integer> {
     Theater findByAddress(String address);
 

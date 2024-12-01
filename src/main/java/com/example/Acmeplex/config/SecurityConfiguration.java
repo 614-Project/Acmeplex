@@ -31,27 +31,29 @@ public class SecurityConfiguration {
 	}
 
 	@Bean
-	SecurityFilterChain securityFilterChain(HttpSecurity http, JwtAuthFilter authFilter) throws Exception {
-		return http.csrf(c -> c.disable())
-				// .authorizeHttpRequests(req ->
-				// req.requestMatchers("user/auth/**").permitAll()
-				// .requestMatchers("/movie/**").hasAnyAuthority("ROLE_ADMIN")
-				// .requestMatchers("/show/**").hasAnyAuthority("ROLE_ADMIN")
-				// .requestMatchers("/theater/**").hasAnyAuthority("ROLE_ADMIN")
-				// .requestMatchers("/ticket/**").hasAnyAuthority("ROLE_USER")
-				// .requestMatchers("/user/login").permitAll()
-				// .requestMatchers("/user/addNew").permitAll()
-				// .requestMatchers("/user/getToken").permitAll()
-				// .requestMatchers("/user/**").authenticated()
-				// .anyRequest().authenticated())
-				.authorizeHttpRequests(req -> req.requestMatchers("/**").permitAll() // Allow access to all endpoints
-						.anyRequest().permitAll())
+    SecurityFilterChain securityFilterChain(HttpSecurity http, JwtAuthFilter authFilter) throws Exception {
+        return http.csrf(c -> c.disable())
+                .authorizeHttpRequests(req ->
+                    req
+					//.requestMatchers("user/auth/**").permitAll()
+                    .requestMatchers("/movie/**").permitAll()
+                    .requestMatchers("/show/**").permitAll()
+                    .requestMatchers("/theater/**").permitAll()
+					.requestMatchers("/ticket/checkout").permitAll()
+					.requestMatchers("/user/login").permitAll()
+					.requestMatchers("/user/addNew").permitAll()
+					.requestMatchers("/user/getToken").permitAll()
+					.requestMatchers("/user/**").authenticated()
+					.requestMatchers("/api/payment/payment-intent").permitAll()					
+					.requestMatchers("/api/payment/**").authenticated()
+					.requestMatchers("/v1/product/webhook").permitAll()
 
-				.sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-				.authenticationProvider(authenticationProvider())
-				.addFilterBefore(authFilter, UsernamePasswordAuthenticationFilter.class)
-				.build();
-	}
+                    .anyRequest().permitAll())
+                .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .authenticationProvider(authenticationProvider())
+                .addFilterBefore(authFilter, UsernamePasswordAuthenticationFilter.class)
+                .build();
+    }
 
 	@Bean
 	AuthenticationProvider authenticationProvider() {
