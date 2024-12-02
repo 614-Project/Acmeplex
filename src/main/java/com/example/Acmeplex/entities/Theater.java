@@ -28,9 +28,6 @@ public class Theater {
 
     private String name;
 
-    // the constraints indicates two theatres cannot be on the same
-    // address.....confirm
-    // correct implementation
     @Column(unique = true)
     private String address;
 

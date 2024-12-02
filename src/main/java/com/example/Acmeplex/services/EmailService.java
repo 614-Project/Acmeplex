@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
-
 import com.example.Acmeplex.entities.Credit;
 import com.example.Acmeplex.entities.Movie;
 import com.example.Acmeplex.entities.Show;
@@ -17,6 +16,7 @@ public class EmailService {
     @Autowired
     private JavaMailSender mailSender;
 
+    //send email to user when their payment is confirmed 
     public void sendPaymentSuccessEmail(String email, String paymentIntentId) {
         String paymentBody = String.format(
             "Dear Customer,%n" +
@@ -27,6 +27,8 @@ public class EmailService {
         sendEmail(email, "Payment Confirmation", paymentBody);
     }
 
+
+        //send ticket details email to user when their payment is confirmed 
     public void sendTicketDetailsEmail(String email, Ticket ticket, String customerName) {
         Show show = ticket.getShow();
         Movie movie = show.getMovie();
@@ -49,6 +51,8 @@ public class EmailService {
         sendEmail(email, "Ticket Confirmation", ticketBody);
     }
 
+
+    // send promotional email to user when a movie is added to the database
     public void sendMovieAddedEmail(String email, String movieName) {
         String paymentBody = String.format(
             "Dear Customer,%n" +
@@ -59,8 +63,10 @@ public class EmailService {
         sendEmail(email, "Movie Promotion", paymentBody);
     }
 
+
+    //Notify user when they cancel the ticket through email with credit they got
     public void sendTicketCancelEmail(String email, Credit credit, String customerName) {
-        // Construct the email body using a formatted string
+
         String ticketBody = String.format(
             "Dear %s,%n" +
             "Your ticket has been canceled. You have received store credit which must be used within a year.%n" +
@@ -71,7 +77,6 @@ public class EmailService {
             credit.getExpireDate()
         );
     
-        // Send the email using a predefined method
         sendEmail(email, "Ticket Cancellation Confirmation", ticketBody);
     }
 
@@ -79,7 +84,7 @@ public class EmailService {
     private void sendEmail(String to, String subject, String body) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(to);
-        message.setSubject(subject); // Use the subject provided to the method
+        message.setSubject(subject); 
         message.setText(body);
         message.setFrom("meluxmeme@gmail.com");
 

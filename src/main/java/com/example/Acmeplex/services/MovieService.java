@@ -71,20 +71,24 @@ public class MovieService {
         return movieRepository.findAll(pageable);
     }
 
+    // get movie based on genre
     public Page<Movie> getMoviesByGenre(Genre genre, Pageable pageable) {
         return movieRepository.findByGenre(genre, pageable);
     }
 
+    //get movie based on rating
     public Page<Movie> getMoviesWithMinimumRating(Double rating, Pageable pageable) {
         return movieRepository.findByRatingGreaterThanEqual(rating, pageable);
     }
 
+    //get movie based on movieid
     @Transactional
     public Movie getMovieById(Integer id) {
         return movieRepository.findById(id)
                 .orElseThrow(() -> new MovieNotFoundException("Movie not found with ID: " + id));
     }
     
+    //get movie based on title
     @Transactional
     public List<Movie> findMoviesByTitle(String title) {
         List<Movie> movies = movieRepository.findByTitleContainingIgnoreCase(title);

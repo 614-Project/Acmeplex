@@ -6,6 +6,10 @@ import com.example.Acmeplex.response.MovieResponse;
 
 public class MovieConvertor {
 
+      /*
+     * This method helps to convert a movie request to a movie object(entity)
+     * before saving the data to the database.
+     */
   public static MovieResponse toMovieResponse(Movie movie) {
     return MovieResponse.builder()
         .id(movie.getMovieId())

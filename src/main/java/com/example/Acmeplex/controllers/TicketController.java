@@ -25,6 +25,7 @@ public class TicketController {
     @Autowired
     TicketRepository ticketRepository;
 
+	//end point to book ticket
 	@PostMapping("/book")
 	public ResponseEntity<Object> ticketBooking(@RequestBody TicketRequest ticketRequest) {
 		try {
@@ -35,6 +36,7 @@ public class TicketController {
 		}
 	}
 
+	//end point to cancel booked ticket
     @PostMapping("/cancel")
     public void cancelTicket(@RequestParam Long ticketNumber){
         ticketService.cancelTicket(ticketNumber);

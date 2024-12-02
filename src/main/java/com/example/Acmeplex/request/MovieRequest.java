@@ -2,7 +2,6 @@ package com.example.Acmeplex.request;
 
 import com.example.Acmeplex.enums.Genre;
 import com.example.Acmeplex.enums.MovieType;
-
 import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Min;
@@ -14,7 +13,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import java.time.LocalDate;
 import java.util.List;
 

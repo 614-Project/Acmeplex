@@ -16,10 +16,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class TheaterSeat {
 
-    public TheaterSeat(String address, Integer numberOfSeatPerRow, Integer numberOfRows) {
-        //TODO Auto-generated constructor stub
-    }
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -31,4 +27,6 @@ public class TheaterSeat {
     @JoinColumn
     private Theater theater;
 
+    public TheaterSeat(String address, Integer numberOfSeatPerRow, Integer numberOfRows) {
+    }
 }

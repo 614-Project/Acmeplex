@@ -1,7 +1,6 @@
 package com.example.Acmeplex.controllers;
 
 import com.example.Acmeplex.response.UserResponse;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
