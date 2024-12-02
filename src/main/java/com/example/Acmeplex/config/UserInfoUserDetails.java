@@ -2,9 +2,7 @@ package com.example.Acmeplex.config;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
 import com.example.Acmeplex.entities.User;
-
 import java.util.Collection;
 
 public class UserInfoUserDetails implements UserDetails {
@@ -17,7 +15,7 @@ public class UserInfoUserDetails implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        // Return user roles or authorities
+
         return null;
     }
 

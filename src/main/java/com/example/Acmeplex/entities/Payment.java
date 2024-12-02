@@ -40,7 +40,6 @@ public class Payment {
     @Column(name = "customer_email")
     private String customerEmail;
 
-
     @OneToOne
     @JoinColumn(name = "ticket_id", referencedColumnName = "id")
     private Ticket ticket;

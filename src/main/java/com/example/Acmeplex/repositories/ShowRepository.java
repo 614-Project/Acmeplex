@@ -4,13 +4,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-
 import com.example.Acmeplex.entities.Show;
-
 import java.sql.Date;
 import java.sql.Time;
-import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.List;
 @Repository
 public interface ShowRepository extends JpaRepository<Show, Integer> {
@@ -20,8 +16,7 @@ public interface ShowRepository extends JpaRepository<Show, Integer> {
     @Query("SELECT s FROM Show s WHERE s.movie.movieId = :movieId AND s.theater.theaterId = :theaterId")
     List<Show> findShowsByMovieAndTheater(@Param("movieId") Integer movieId, @Param("theaterId") Integer theaterId);
 
-    // This method retrieves show timings (List<Time>) for a specific date, movieId,
-    // and theaterId.
+    // This method retrieves show timings (List<Time>) for a specific date, movieId, and theaterId.
     @Query("SELECT s.time FROM Show s WHERE s.date = :date AND s.movie.movieId = :movieId AND s.theater.theaterId = :theaterId")
     List<Time> getShowTimingsOnDate(@Param("date") Date date, @Param("theaterId") Integer theaterId,
             @Param("movieId") Integer movieId);

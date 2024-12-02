@@ -10,12 +10,8 @@ import com.example.Acmeplex.exceptions.MovieNotFoundException;
 import com.example.Acmeplex.repositories.UserRepository;
 import com.example.Acmeplex.request.MovieRequest;
 import com.example.Acmeplex.enums.Genre;
-
 import java.util.List;
-
-import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -44,16 +40,16 @@ public class MovieController {
         Movie savedMovie = movieService.addMovie(movie);
         MovieResponse movieResponse = MovieConvertor.toMovieResponse(savedMovie);
         
-        List<User> users = userRepository.findAll();  // Fetch all users
+        List<User> users = userRepository.findAll();  
 
         for (User user : users) {
             try {
                 emailService.sendMovieAddedEmail(user.getEmail(), movie.getTitle());
             } catch (MailException  e) {
-                e.printStackTrace();  // Handle error (e.g., log it)
+                e.printStackTrace();  
             }
         }
-        //emailService.sendMovieAddedEmail( email,  movieName);
+
 
         return new ResponseEntity<>(movieResponse, HttpStatus.CREATED);
     }
@@ -75,6 +71,7 @@ public class MovieController {
         return new ResponseEntity<>("Movie deleted successfully.", HttpStatus.OK);
     }
 
+    //get movie according tot he movie id
     @GetMapping("/{id}")
     public ResponseEntity<MovieResponse> getMovieById(@PathVariable Integer id) {
         try {
@@ -86,6 +83,7 @@ public class MovieController {
         }
     }
 
+    //get all movie
     @GetMapping("/all")
     public ResponseEntity<Page<MovieResponse>> getAllMovies(
             @RequestParam(defaultValue = "0") int page,
@@ -99,6 +97,7 @@ public class MovieController {
         return new ResponseEntity<>(responses, HttpStatus.OK);
     }
 
+    //get movie based on genra
     @GetMapping("/genre")
     public ResponseEntity<Page<MovieResponse>> getMoviesByGenre(
             @RequestParam Genre genre,
@@ -113,6 +112,7 @@ public class MovieController {
         return new ResponseEntity<>(responses, HttpStatus.OK);
     }
 
+    //get movie based on rating
     @GetMapping("/rating")
     public ResponseEntity<Page<MovieResponse>> getMoviesWithMinimumRating(
             @RequestParam Double minRating,
@@ -127,6 +127,7 @@ public class MovieController {
         return new ResponseEntity<>(responses, HttpStatus.OK);
     }
 
+    //search movie with keyword
     @GetMapping("/search")
     public ResponseEntity<Page<MovieResponse>> findMoviesByTitle(
             @RequestParam String title,

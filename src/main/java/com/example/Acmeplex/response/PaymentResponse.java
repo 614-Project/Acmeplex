@@ -6,7 +6,7 @@ import lombok.Data;
 @Builder
 @Data
 
-public class StripeResponse {
+public class PaymentResponse {
 
     private String status;
     private String message;
@@ -14,5 +14,5 @@ public class StripeResponse {
     private String sessionUrl;
     private String amount;
     private String currency;
-    private String movieName;
+
 }

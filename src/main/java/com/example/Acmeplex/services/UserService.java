@@ -1,12 +1,9 @@
 package com.example.Acmeplex.services;
 
 import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import com.example.Acmeplex.config.JWTService;
 import com.example.Acmeplex.controllers.AuthResponse;
 import com.example.Acmeplex.convertors.UserConvertor;
@@ -27,6 +24,7 @@ public class UserService {
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 
+	// method to register new user
 	public AuthResponse addUser(UserRequest userRequest) throws Exception {
 		Optional<User> users = userRepository.findByEmail(userRequest.getEmail());
 
@@ -45,12 +43,7 @@ public class UserService {
 		return new AuthResponse(token, userResponse);
 	}
 
-	// public UserResponse getUserById(Long id) {
-	// User user = userRepository.findById(id)
-	// .orElseThrow(() -> new RuntimeException("User not found"));
-	// return UserConvertor.userToUserDto(user);
-	// }
-
+// method to get user by their id
 	public UserResponse getUserById(Integer id) {
 		User user = userRepository.findById(id)
 				.orElseThrow(() -> new RuntimeException("User not found"));

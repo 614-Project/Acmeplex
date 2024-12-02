@@ -35,3 +35,4 @@ build/
 ### environment variables
 
 .env
+/bin/

@@ -4,11 +4,9 @@ import java.time.LocalTime;
 import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
-
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -40,10 +38,12 @@ public class Show {
 
     private Date date;
 
+    @JsonBackReference
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "movieId")
     private Movie movie;
 
+    @JsonBackReference
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "theaterId")
     private Theater theater;
@@ -52,7 +52,10 @@ public class Show {
     @OneToMany(mappedBy = "show", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<ShowSeat> showSeatList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "show", cascade = CascadeType.ALL, fetch =FetchType.EAGER)
+    @JsonBackReference
+    @OneToMany(mappedBy = "show", cascade = CascadeType.ALL, fetch =
+    FetchType.EAGER)
+  
     private List<Ticket> ticketList = new ArrayList<>();
 
     public Show(LocalTime showStartTime, java.sql.Date showDate, Integer theaterId, Integer movieId) {

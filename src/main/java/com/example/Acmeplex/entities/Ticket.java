@@ -2,9 +2,7 @@ package com.example.Acmeplex.entities;
 
 import java.sql.Date;
 import java.time.LocalDateTime;
-
 import org.hibernate.annotations.CreationTimestamp;
-
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -40,9 +38,6 @@ public class Ticket {
 
     @Column(name = "session_id")
     private String sessionId;
-
-    // @Column(name = "Location")
-    // private String location;
 
     @Column(name = "total_price")
 	private Long totalTicketsPrice;

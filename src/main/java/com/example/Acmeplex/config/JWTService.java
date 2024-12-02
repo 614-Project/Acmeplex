@@ -5,21 +5,21 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.io.Decoders;
-
 import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
-
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 @Service
 public class JWTService {
 
-    public static final String SECRET = "404D635166546A576E5A7234753778214125442A472D4B6150645267556B5870";
-    
+    @Value("${jwt.secret}")
+    private String SECRET;
+
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
     }

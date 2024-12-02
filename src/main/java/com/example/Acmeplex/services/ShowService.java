@@ -2,10 +2,8 @@ package com.example.Acmeplex.services;
 
 import java.util.List;
 import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.example.Acmeplex.convertors.ShowConvertor;
 import com.example.Acmeplex.entities.Movie;
 import com.example.Acmeplex.entities.Show;
@@ -79,8 +77,7 @@ public class ShowService {
         return "Show has been added Successfully";
     }
 
-    // this method associates seats with a show by creating showseat entities for
-    // each seat
+    // this method associates seats with a show by creating showseat entities for each seat
     @Transactional
     public String associateShowSeats(ShowSeatRequest showSeatRequest) throws ShowDoesNotExist {
 
@@ -97,8 +94,7 @@ public class ShowService {
 
         List<ShowSeat> showSeatList = show.getShowSeatList();
 
-        // for each seat in the theatre create a corresponding showseat and updates
-        // showseat
+        // for each seat in the theatre create a corresponding showseat and updates showseat
         for (TheaterSeat theaterSeat : theaterSeatList) {
             ShowSeat showSeat = new ShowSeat();
             showSeat.setSeatNo(theaterSeat.getSeatNo());

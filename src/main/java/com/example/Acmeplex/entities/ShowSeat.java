@@ -22,7 +22,6 @@ public class ShowSeat {
 
     private Boolean isAvailable;
 
-    // private Boolean isFoodContains;
 
     @ManyToOne
     @JoinColumn

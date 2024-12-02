@@ -1,131 +1,11 @@
-// package com.example.Acmeplex.services;
-
-// import java.util.List;
-// import java.util.Optional;
-
-// import org.springframework.beans.factory.annotation.Autowired;
-// import org.springframework.stereotype.Service;
-
-// // import com.example.Acmeplex.convertor.TicketConvertor;
-// import com.example.Acmeplex.entities.Show;
-// // import com.example.Acmeplex.entities.ShowSeat;
-// import com.example.Acmeplex.entities.Ticket;
-// import com.example.Acmeplex.entities.User;
-// // import com.example.Acmeplex.exceptions.SeatsNotAvailable;
-// // import com.example.Acmeplex.exceptions.ShowDoesNotExists;
-// // import com.example.Acmeplex.exceptions.UserDoesNotExists;
-// // import com.example.Acmeplex.repositories.ShowRepository;
-// import com.example.Acmeplex.repositories.TicketRepository;
-// import com.example.Acmeplex.repositories.UserRepository;
-// import com.example.Acmeplex.request.TicketRequest;
-// import com.example.Acmeplex.response.TicketResponse;
-
-// @Service
-// public class TicketService {
-
-// @Autowired
-// private TicketRepository ticketRepository;
-
-// @Autowired
-// private ShowRepository showRepository;
-
-// @Autowired
-// private UserRepository userRepository;
-
-// public TicketResponse ticketBooking(TicketRequest ticketRequest) {
-// Optional<Show> showOpt = showRepository.findById(ticketRequest.getShowId());
-
-// if (showOpt.isEmpty()) {
-// throw new ShowDoesNotExist();
-// }
-
-// Optional<User> userOpt = userRepository.findById(ticketRequest.getUserId());
-
-// if (userOpt.isEmpty()) {
-// throw new UserDoesNotExists();
-// }
-
-// User user = userOpt.get();
-// Show show = showOpt.get();
-
-// Boolean isSeatAvailable = isSeatAvailable(show.getShowSeatList(),
-// ticketRequest.getRequestSeats());
-
-// if (!isSeatAvailable) {
-// throw new SeatsNotAvailable();
-// }
-
-// // count price
-// Integer getPriceAndAssignSeats =
-// getPriceAndAssignSeats(show.getShowSeatList(),
-// ticketRequest.getRequestSeats());
-
-// String seats = listToString(ticketRequest.getRequestSeats());
-
-// Ticket ticket = new Ticket();
-// ticket.setTotalTicketsPrice(getPriceAndAssignSeats);
-// ticket.setBookedSeats(seats);
-// ticket.setUser(user);
-// ticket.setShow(show);
-
-// ticket = ticketRepository.save(ticket);
-
-// user.getTicketList().add(ticket);
-// show.getTicketList().add(ticket);
-// userRepository.save(user);
-// showRepository.save(show);
-
-// return TicketConvertor.returnTicket(show, ticket);
-// }
-
-// private Boolean isSeatAvailable(List<ShowSeat> showSeatList, List<String>
-// requestSeats) {
-// for (ShowSeat showSeat : showSeatList) {
-// String seatNo = showSeat.getSeatNo();
-
-// if (requestSeats.contains(seatNo) && !showSeat.getIsAvailable()) {
-// return false;
-// }
-// }
-
-// return true;
-// }
-
-// private Integer getPriceAndAssignSeats(List<ShowSeat> showSeatList,
-// List<String> requestSeats) {
-// Integer totalAmount = 0;
-
-// for (ShowSeat showSeat : showSeatList) {
-// if (requestSeats.contains(showSeat.getSeatNo())) {
-// totalAmount += showSeat.getPrice();
-// showSeat.setIsAvailable(Boolean.FALSE);
-// }
-// }
-
-// return totalAmount;
-// }
-
-// private String listToString(List<String> requestSeats) {
-// StringBuilder sb = new StringBuilder();
-
-// for (String s : requestSeats) {
-// sb.append(s).append(",");
-// }
-
-// return sb.toString();
-// }
-
-// }
 
 package com.example.Acmeplex.services;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.example.Acmeplex.convertors.TicketConvertor;
 import com.example.Acmeplex.entities.Credit;
 import com.example.Acmeplex.entities.Payment;
@@ -159,6 +39,9 @@ public class TicketService {
     @Autowired
 	private ShowRepository showRepository;
 
+    @Autowired
+    private EmailService emailService;
+
 	public TicketResponse ticketBooking(TicketRequest ticketRequest) {
 		Optional<Show> showOpt = showRepository.findById(ticketRequest.getShowId());
 
@@ -166,13 +49,6 @@ public class TicketService {
 			throw new ShowDoesNotExist();
 		}
 
-		// Optional<User> userOpt = userRepository.findById(ticketRequest.getUserId());
-
-		// if (userOpt.isEmpty()) {
-		// 	throw new UserDoesNotExists();
-		// }
-
-		// User user = userOpt.get();
 		Show show = showOpt.get();
 
 		Boolean isSeatAvailable = isSeatAvailable(show.getShowSeatList(), ticketRequest.getRequestSeats());
@@ -181,7 +57,7 @@ public class TicketService {
 			throw new SeatsNotAvailable();
 		}
 
-		// count price
+
 		assignSeats(show.getShowSeatList(),	ticketRequest.getRequestSeats());
 
 		String seats = listToString(ticketRequest.getRequestSeats());
@@ -189,19 +65,17 @@ public class TicketService {
 		Ticket ticket = new Ticket();
 		ticket.setTotalTicketsPrice(ticketRequest.getTotal());
 		ticket.setBookedSeats(seats);
-		//ticket.setUser(user);
 		ticket.setShow(show);
-
+		ticket.setBookedSeats(seats);
 		ticket = ticketRepository.save(ticket);
 
-		//user.getTicketList().add(ticket);
 		show.getTicketList().add(ticket);
-		//userRepository.save(user);
 		showRepository.save(show);
 
 		return TicketConvertor.returnTicket(show, ticket);
 	}
 
+	//method to check if the requested seat is available
 	private Boolean isSeatAvailable(List<ShowSeat> showSeatList, List<String> requestSeats) {
 		for (ShowSeat showSeat : showSeatList) {
 			String seatNo = showSeat.getSeatNo();
@@ -214,20 +88,8 @@ public class TicketService {
 		return true;
 	}
 
-	// private Long getPriceAndAssignSeats(List<ShowSeat> showSeatList, List<String> requestSeats) {
-	// 	Long totalAmount = 0L;
-
-	// 	for (ShowSeat showSeat : showSeatList) {
-	// 		if (requestSeats.contains(showSeat.getSeatNo())) {
-	// 			totalAmount += showSeat.getPrice().longValue();
-	// 			showSeat.setIsAvailable(Boolean.FALSE);
-	// 		}
-	// 	}
-
-	// 	return totalAmount;
-	// }
+    // methid to update the seat status
     private void assignSeats(List<ShowSeat> showSeatList, List<String> requestSeats) {
-        // Iterate through the list of ShowSeat objects and update availability for requested seats
         for (ShowSeat showSeat : showSeatList) {
             if (requestSeats.contains(showSeat.getSeatNo())) {
                 showSeat.setIsAvailable(Boolean.FALSE); // Mark seat as unavailable
@@ -247,7 +109,7 @@ public class TicketService {
 	}
 
 
-    // Ticket cancellation
+    // Method for cancellation of ticket
     public void cancelTicket(Long id) {
 
         Ticket ticket = ticketRepository.findById(id)
@@ -287,6 +149,11 @@ public class TicketService {
 
             ticket.setStatus("CANCELED");
             ticketRepository.save(ticket);
+
+            //Send email to customer about ticket cancelation
+            String customerEmail = payment.getCustomerEmail();
+            String customerName = payment.getCustomerName();
+            emailService.sendTicketCancelEmail(customerEmail, credit, customerName);
 
             System.out.println("Ticket canceled successfully.");
         } else {

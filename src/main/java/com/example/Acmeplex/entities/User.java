@@ -6,9 +6,6 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.util.ArrayList;
-import java.util.List;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -32,22 +29,20 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
     @Column(name = "user_id")
-    private Integer userId; // Unique identifier for each user
+    private Integer userId; 
  
     @Column(nullable = false)
-    private String name; // Name of the user
+    private String name; 
  
     @Column(nullable = false, unique = true)
-    private String email; // Email address for notifications and receipts
+    private String email; 
  
     @Column()
-    private String phone; // Contact number
+    private String phone; 
  
     @Column()
-    private String address; // Address for registered users
+    private String address; 
  
-    // @Column(nullable = false) 
-    // private Boolean isRegistered = false;
     @Column(name = "Credit", columnDefinition = "int default 0")
     private Integer credit; 
 

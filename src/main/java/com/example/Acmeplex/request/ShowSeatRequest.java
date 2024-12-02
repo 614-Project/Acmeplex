@@ -11,6 +11,4 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ShowSeatRequest {
     private Integer showId;
-    // private Integer priceOfPremiumSeat;
-    // private Integer priceOfClassicSeat;
 }

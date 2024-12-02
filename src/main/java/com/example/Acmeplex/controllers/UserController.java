@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.example.Acmeplex.config.JWTService;
 import com.example.Acmeplex.config.UserInfoUserDetails;
 import com.example.Acmeplex.convertors.UserConvertor;
@@ -38,18 +37,18 @@ public class UserController {
     @Autowired
     private JWTService jwtService;
 
-    // Register a user
+    // end point to Register a user
     @PostMapping("/addNew")
     public ResponseEntity<AuthResponse> addNewUser(@RequestBody UserRequest userEntryDto) {
         try {
-            AuthResponse result = userService.addUser(userEntryDto); // Call the updated service method
+            AuthResponse result = userService.addUser(userEntryDto); 
             return new ResponseEntity<>(result, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
     }
 
-    // Login
+    // endpoint to Login to a user
     @PostMapping("/login")
     public ResponseEntity<AuthResponse> login(@RequestBody AuthRequest authRequest) {
         Authentication authentication = authenticationManager.authenticate(
@@ -67,7 +66,7 @@ public class UserController {
         return ResponseEntity.ok(authResponse);
     }
 
-    // View Profile by ID
+    // endpoint to view Profile by ID
     @GetMapping("/{id}/profile")
     public ResponseEntity<UserResponse> viewUserProfile(@PathVariable Integer id) {
         try {
@@ -78,7 +77,7 @@ public class UserController {
         }
     }
 
-    // Update user
+    // end point to update user
     @PutMapping("/{id}")
     public ResponseEntity<UserResponse> updateUserProfile(@PathVariable Integer id,
             @RequestBody UserRequest userRequest) {
@@ -90,7 +89,7 @@ public class UserController {
         }
     }
 
-    // Delete user
+    // end point to delete a user
     @DeleteMapping("/{id}")
     public ResponseEntity<UserResponse> deleteUserProfile(@PathVariable Integer id) {
         try {
@@ -99,25 +98,6 @@ public class UserController {
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
-    }
-
-    @PostMapping("/getToken")
-    public ResponseEntity<AuthResponse> authenticateAndGetToken(@RequestBody AuthRequest authRequest) {
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword()));
-
-        if (authentication.isAuthenticated()) {
-            UserInfoUserDetails userDetails = (UserInfoUserDetails) authentication.getPrincipal();
-            User user = userDetails.getUser(); // Extract the user from UserInfoUserDetails
-            String token = jwtService.generateToken(user.getEmail());
-
-            UserResponse userResponse = UserConvertor.userToUserDto(user);
-            AuthResponse authResponse = new AuthResponse(token, userResponse);
-
-            return ResponseEntity.ok(authResponse);
-        }
-
-        throw new UsernameNotFoundException("Invalid user details.");
     }
 
 }
