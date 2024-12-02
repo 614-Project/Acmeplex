@@ -37,12 +37,6 @@ public class Movie {
 
     private LocalDate releaseDate;
 
-    private List<String> cast;
-
-    private String url;
-
-    private String trailerUrl;
-
     private Double rating; 
 
     private String director; 
