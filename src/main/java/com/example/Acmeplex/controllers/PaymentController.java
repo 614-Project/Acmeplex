@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.view.RedirectView;
 import com.example.Acmeplex.request.PaymentRequest;
 import com.example.Acmeplex.response.PaymentResponse;
 import com.example.Acmeplex.services.PaymentService;
@@ -28,7 +29,7 @@ public class PaymentController {
     }
 
     @GetMapping("/success")
-    public String successPage() {
-    return "Payment success"; 
+    public RedirectView successPage() {
+    return new RedirectView("http://localhost:3000/payment-success"); 
 }
 }

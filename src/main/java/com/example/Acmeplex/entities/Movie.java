@@ -1,7 +1,8 @@
 package com.example.Acmeplex.entities;
 
 import com.example.Acmeplex.enums.Genre;
-import com.example.Acmeplex.enums.MovieType;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -52,30 +53,33 @@ public class Movie {
     @Column(length = 1000) 
     private String description; 
 
-    @Enumerated(value = EnumType.STRING)
-    private MovieType movieType;
-
     @ElementCollection
     @CollectionTable(name = "MOVIE_CAST", joinColumns = @JoinColumn(name = "movieId"))
+    private List<String> cast;
+
+    private String bannerUrl;
+    private String carouselUrl;
+
+    private String trailerUrl;
 
     @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JsonManagedReference 
+    @JsonManagedReference
     private List<Show> shows = new ArrayList<>();
 
     //movie constructor
     public Movie(String title, String description, Integer duration, Genre genre, 
-             MovieType movieType, LocalDate releaseDate, Double rating, 
-             String director, List<String> cast, String url, String trailerUrl) {
+             LocalDate releaseDate, Double rating, 
+             String director, List<String> cast, String bannerUrl, String carouselUrl, String trailerUrl) {
     this.title = title;
     this.description = description;
     this.duration = duration;
     this.genre = genre;
-    this.movieType = movieType;
     this.releaseDate = releaseDate;
     this.rating = rating;
     this.director = director;
     this.cast = cast;
-    this.url = url;
+    this.bannerUrl = bannerUrl;
+    this.carouselUrl = carouselUrl;
     this.trailerUrl = trailerUrl;
 }
 

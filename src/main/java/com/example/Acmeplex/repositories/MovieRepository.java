@@ -13,7 +13,7 @@ import com.example.Acmeplex.enums.Genre;
 public interface MovieRepository extends JpaRepository<Movie, Integer> {
     
     // JpaRepository provides basic and pagination methods
-    List<Movie> findByTitleContainingIgnoreCase(String titleCRUD);
+    Page<Movie> findByTitleContainingIgnoreCase(String title, Pageable pageable);
 
     // Method to find movies by genre with pagination
     Page<Movie> findByGenre(Genre genre, Pageable pageable);

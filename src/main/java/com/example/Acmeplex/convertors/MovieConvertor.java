@@ -17,11 +17,11 @@ public class MovieConvertor {
         .description(movie.getDescription())
         .duration(movie.getDuration())
         .genre(movie.getGenre().toString())
-        .movieType(movie.getMovieType() != null ? movie.getMovieType().toString() : null) // Handle null MovieType
         .releaseDate(movie.getReleaseDate().toString())
         .rating(movie.getRating())
         .director(movie.getDirector())
-        .url(movie.getUrl())
+        .bannerUrl(movie.getBannerUrl())
+        .carouselUrl(movie.getCarouselUrl())
         .trailerUrl(movie.getTrailerUrl())
         .build();
   }
@@ -32,12 +32,12 @@ public class MovieConvertor {
         .description(movieRequest.getDescription())
         .duration(movieRequest.getDuration())
         .genre(movieRequest.getGenre())
-        .movieType(movieRequest.getMovieType())
         .releaseDate(movieRequest.getReleaseDate())
         .rating(movieRequest.getRating())
         .director(movieRequest.getDirector())
         .cast(movieRequest.getCast())
-        .url(movieRequest.getUrl())
+        .bannerUrl(movieRequest.getBannerUrl())
+        .carouselUrl(movieRequest.getCarouselUrl())
         .trailerUrl(movieRequest.getTrailerUrl())
         .build();
   }

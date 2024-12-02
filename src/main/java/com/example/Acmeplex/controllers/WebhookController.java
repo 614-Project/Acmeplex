@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -21,6 +22,7 @@ import com.google.gson.JsonParser;
 import com.stripe.exception.SignatureVerificationException;
 import com.stripe.model.Event;
 import com.stripe.net.Webhook;
+import org.springframework.web.servlet.view.RedirectView;
 
 @RestController
 public class WebhookController {
@@ -37,6 +39,11 @@ public class WebhookController {
     
      @Autowired
     private EmailService emailService;
+
+    @GetMapping("/success")
+    public RedirectView successPage() {
+    return new RedirectView("http://localhost:3000/payment-success");
+    }
 
     @PostMapping("/webhook")
     public ResponseEntity<String> handleStripeWebhook(@RequestBody String payload,
