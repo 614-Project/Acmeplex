@@ -22,7 +22,6 @@ public class TheaterSeat {
 
     private String seatNo;
     
-    @JsonBackReference
     @ManyToOne
     @JoinColumn
     @JsonBackReference
