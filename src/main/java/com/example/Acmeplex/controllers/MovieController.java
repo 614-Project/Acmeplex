@@ -128,11 +128,13 @@ public class MovieController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<List<MovieResponse>> findMoviesByTitle(@RequestParam String title) {
-        List<Movie> movies = movieService.findMoviesByTitle(title);
-        List<MovieResponse> responses = movies.stream()
-                .map(MovieConvertor::toMovieResponse)
-                .toList();
-        return ResponseEntity.ok(responses);
+    public ResponseEntity<Page<MovieResponse>> findMoviesByTitle(
+            @RequestParam String title,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        PageRequest pageRequest = PageRequest.of(page, size);
+        Page<Movie> moviesPage = movieService.findMoviesByTitle(title, pageRequest);
+        Page<MovieResponse> responsesPage = moviesPage.map(MovieConvertor::toMovieResponse);
+        return ResponseEntity.ok(responsesPage);
     }
 }

@@ -42,8 +42,6 @@ public class MovieService {
             existingMovie.setDuration(movieRequest.getDuration());
         if (movieRequest.getGenre() != null)
             existingMovie.setGenre(movieRequest.getGenre());
-        if (movieRequest.getMovieType() != null)
-            existingMovie.setMovieType((movieRequest.getMovieType()));
         if (movieRequest.getReleaseDate() != null)
             existingMovie.setReleaseDate(movieRequest.getReleaseDate());
         if (movieRequest.getRating() != null)
@@ -52,8 +50,10 @@ public class MovieService {
             existingMovie.setDirector(movieRequest.getDirector());
         if (movieRequest.getCast() != null)
             existingMovie.setCast(movieRequest.getCast());
-        if (movieRequest.getUrl() != null)
-            existingMovie.setUrl(movieRequest.getUrl());
+        if (movieRequest.getBannerUrl() != null)
+            existingMovie.setBannerUrl(movieRequest.getBannerUrl());
+        if (movieRequest.getCarouselUrl() != null)
+            existingMovie.setCarouselUrl(movieRequest.getCarouselUrl());
         if (movieRequest.getTrailerUrl() != null)
             existingMovie.setTrailerUrl(movieRequest.getTrailerUrl());
 
@@ -86,12 +86,13 @@ public class MovieService {
     }
     
     @Transactional
-    public List<Movie> findMoviesByTitle(String title) {
-        List<Movie> movies = movieRepository.findByTitleContainingIgnoreCase(title);
-        if (movies.isEmpty()) {
+    public Page<Movie> findMoviesByTitle(String title, Pageable pageable) {
+        Page<Movie> moviePage = movieRepository.findByTitleContainingIgnoreCase(title, pageable);
+
+        if (moviePage.isEmpty()) {
             throw new MovieNotFoundException("No movies found with title: " + title);
         }
-        return movies;
+        return moviePage;
     }
     
 }

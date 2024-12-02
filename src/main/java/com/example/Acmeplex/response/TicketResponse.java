@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class TicketResponse {
+    private Long ticketId;
     private LocalTime time;
     private Date date;
     private String movieName;

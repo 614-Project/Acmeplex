@@ -1,7 +1,6 @@
 package com.example.Acmeplex.request;
 
 import com.example.Acmeplex.enums.Genre;
-import com.example.Acmeplex.enums.MovieType;
 
 import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.DecimalMin;
@@ -35,8 +34,6 @@ public class MovieRequest {
     @NotNull(message = "Genre is required")
     private Genre genre;
 
-    private MovieType movieType;
-
     @PastOrPresent(message = "Release date cannot be in the future")
 
     private LocalDate releaseDate;
@@ -49,7 +46,8 @@ public class MovieRequest {
 
     private List<String> cast;
 
-    private String url;
+    private String bannerUrl;
+    private String carouselUrl;
 
     private String trailerUrl;
 }

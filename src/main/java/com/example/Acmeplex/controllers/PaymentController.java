@@ -42,6 +42,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.view.RedirectView;
 
 import com.example.Acmeplex.repositories.TicketRepository;
 import com.example.Acmeplex.request.PaymentRequest;
@@ -71,7 +72,7 @@ public class PaymentController {
     }
 
     @GetMapping("/success")
-    public String successPage() {
-    return "success"; // Or the actual view name
+    public RedirectView successPage() {
+    return new RedirectView("http://localhost:3000/payment-success"); 
 }
 }
