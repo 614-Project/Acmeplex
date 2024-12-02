@@ -1,5 +1,9 @@
 package com.example.Acmeplex.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -22,5 +26,6 @@ public class ShowSeat {
 
     @ManyToOne
     @JoinColumn
+    @JsonManagedReference
     private Show show;
 }

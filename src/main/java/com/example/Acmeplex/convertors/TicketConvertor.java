@@ -15,6 +15,7 @@ TicketResponse ticketResponseDto = TicketResponse.builder()
 .date(show.getDate())
 .time(show.getTime())
 .totalPrice(ticket.getTotalTicketsPrice())
+.ticketId(ticket.getId())
 .build();
 
 return ticketResponseDto;

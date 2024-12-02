@@ -15,11 +15,11 @@ public class MovieResponse {
     private String description;
     private Integer duration;
     private String genre;
-    private String movieType;
     private String releaseDate;
     private Double rating;
     private String director;
-    private String url;
+    private String bannerUrl;
+    private String carouselUrl;
     private String trailerUrl;
 }
 
