@@ -2,6 +2,8 @@ package com.example.Acmeplex.services;
 
 import java.util.List;
 import java.util.Optional;
+
+import com.example.Acmeplex.repositories.ShowSeatRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.example.Acmeplex.convertors.ShowConvertor;
@@ -23,6 +25,9 @@ import jakarta.transaction.Transactional;
 
 @Service
 public class ShowService {
+
+    @Autowired
+    private ShowSeatRepository showSeatRepository;
 
     @Autowired
     private MovieRepository movieRepository;
@@ -92,7 +97,7 @@ public class ShowService {
         // retrieves list of theatre and showseats
         List<TheaterSeat> theaterSeatList = theater.getTheaterSeatList();
 
-        List<ShowSeat> showSeatList = show.getShowSeatList();
+        List<ShowSeat> showSeatList = showSeatRepository.findByShowShowId(show.getShowId());
 
         // for each seat in the theatre create a corresponding showseat and updates showseat
         for (TheaterSeat theaterSeat : theaterSeatList) {

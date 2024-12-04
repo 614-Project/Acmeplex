@@ -4,6 +4,8 @@ package com.example.Acmeplex.services;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+
+import com.example.Acmeplex.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.example.Acmeplex.convertors.TicketConvertor;
@@ -15,10 +17,6 @@ import com.example.Acmeplex.entities.Ticket;
 import com.example.Acmeplex.entities.User;
 import com.example.Acmeplex.exceptions.SeatsNotAvailable;
 import com.example.Acmeplex.exceptions.ShowDoesNotExist;
-import com.example.Acmeplex.repositories.CreditRepository;
-import com.example.Acmeplex.repositories.ShowRepository;
-import com.example.Acmeplex.repositories.TicketRepository;
-import com.example.Acmeplex.repositories.UserRepository;
 import com.example.Acmeplex.request.TicketRequest;
 import com.example.Acmeplex.response.TicketResponse;
 import jakarta.transaction.Transactional;
@@ -26,6 +24,9 @@ import jakarta.transaction.Transactional;
 @Service
 @Transactional
 public class TicketService {
+
+	@Autowired
+	private ShowSeatRepository showSeatRepository;
 
     @Autowired
     private TicketRepository ticketRepository;
@@ -51,14 +52,16 @@ public class TicketService {
 
 		Show show = showOpt.get();
 
-		Boolean isSeatAvailable = isSeatAvailable(show.getShowSeatList(), ticketRequest.getRequestSeats());
+		List<ShowSeat> showSeatList = showSeatRepository.findByShowShowId(show.getShowId());
+
+		Boolean isSeatAvailable = isSeatAvailable(showSeatList, ticketRequest.getRequestSeats());
 
 		if (!isSeatAvailable) {
 			throw new SeatsNotAvailable();
 		}
 
 
-		assignSeats(show.getShowSeatList(),	ticketRequest.getRequestSeats());
+		assignSeats(showSeatList,	ticketRequest.getRequestSeats());
 
 		String seats = listToString(ticketRequest.getRequestSeats());
 

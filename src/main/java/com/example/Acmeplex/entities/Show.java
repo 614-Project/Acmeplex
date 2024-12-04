@@ -48,9 +48,8 @@ public class Show {
     @JoinColumn(name = "theaterId")
     private Theater theater;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "show", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<ShowSeat> showSeatList = new ArrayList<>();
+//    @OneToMany(mappedBy = "show", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+//    private List<ShowSeat> showSeatList = new ArrayList<>();
 
     @JsonBackReference
     @OneToMany(mappedBy = "show", cascade = CascadeType.ALL, fetch =

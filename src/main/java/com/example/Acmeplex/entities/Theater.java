@@ -31,7 +31,7 @@ public class Theater {
     @Column(unique = true)
     private String address;
 
-    @JsonBackReference
+
     @OneToMany(mappedBy = "theater", cascade = CascadeType.ALL)
     private List<TheaterSeat> theaterSeatList = new ArrayList<>();
 
