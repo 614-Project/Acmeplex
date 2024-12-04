@@ -1,20 +1,32 @@
 
 package com.example.Acmeplex.services;
 
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Optional;
-
-import com.example.Acmeplex.entities.*;
-import com.example.Acmeplex.repositories.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import com.example.Acmeplex.convertors.TicketConvertor;
+import com.example.Acmeplex.entities.Credit;
+import com.example.Acmeplex.entities.Payment;
+import com.example.Acmeplex.entities.Show;
+import com.example.Acmeplex.entities.ShowSeat;
+import com.example.Acmeplex.entities.TheaterSeat;
+import com.example.Acmeplex.entities.Ticket;
+import com.example.Acmeplex.entities.User;
 import com.example.Acmeplex.exceptions.SeatsNotAvailable;
 import com.example.Acmeplex.exceptions.ShowDoesNotExist;
+import com.example.Acmeplex.repositories.CreditRepository;
+import com.example.Acmeplex.repositories.ShowRepository;
+import com.example.Acmeplex.repositories.ShowSeatRepository;
+import com.example.Acmeplex.repositories.TheaterSeatRepository;
+import com.example.Acmeplex.repositories.TicketRepository;
+import com.example.Acmeplex.repositories.UserRepository;
 import com.example.Acmeplex.request.TicketRequest;
 import com.example.Acmeplex.response.TicketResponse;
 import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -38,6 +50,9 @@ public class TicketService {
     @Autowired
     private EmailService emailService;
 
+	@Autowired
+	private TheaterSeatRepository theaterSeatRepository;
+
 	public TicketResponse ticketBooking(TicketRequest ticketRequest) {
 		Optional<Show> showOpt = showRepository.findById(ticketRequest.getShowId());
 
@@ -48,10 +63,13 @@ public class TicketService {
 		Show show = showOpt.get();
 
 		// retrieves list of theatre and showseats
-		List<TheaterSeat> theaterSeatList = theater.getTheaterSeatList();
+		List<TheaterSeat> theaterSeatList = new ArrayList<>();
+		for (String seat : ticketRequest.getRequestSeats()) {
+			TheaterSeat theaterSeat = theaterSeatRepository.findBySeatNo(seat);
+			theaterSeatList.add(theaterSeat);
+		}
 
 		List<ShowSeat> showSeatList = showSeatRepository.findByShowShowId(show.getShowId());
-
 		// for each seat in the theatre create a corresponding showseat and updates showseat
 		for (TheaterSeat theaterSeat : theaterSeatList) {
 			ShowSeat showSeat = new ShowSeat();
@@ -59,13 +77,10 @@ public class TicketService {
 			showSeat.setTheatreSeat(theaterSeat);
 
 			showSeat.setShow(show);
-			showSeat.setIsAvailable(Boolean.TRUE);
-			// showSeat.setIsFoodContains(Boolean.FALSE);
+			showSeat.setIsAvailable(Boolean.FALSE);
 
 			showSeatList.add(showSeat);
 		}
-
-		List<ShowSeat> showSeatList = showSeatRepository.findByShowShowId(show.getShowId());
 
 		Boolean isSeatAvailable = isSeatAvailable(showSeatList, ticketRequest.getRequestSeats());
 
