@@ -88,14 +88,14 @@ public class TicketService {
 		return true;
 	}
 
-    // methid to update the seat status
-    private void assignSeats(List<ShowSeat> showSeatList, List<String> requestSeats) {
-        for (ShowSeat showSeat : showSeatList) {
-            if (requestSeats.contains(showSeat.getSeatNo())) {
-                showSeat.setIsAvailable(Boolean.FALSE); // Mark seat as unavailable
-            }
-        }
-    }
+  // method to update the seat status
+	private void assignSeats(List<ShowSeat> showSeatList, List<String> requestSeats) {
+		for (ShowSeat showSeat : showSeatList) {
+				if (requestSeats.contains(showSeat.getSeatNo())) {
+						showSeat.setIsAvailable(Boolean.FALSE); // Mark seat as unavailable
+				}
+		}
+	}
     
 
 	private String listToString(List<String> requestSeats) {
@@ -109,56 +109,61 @@ public class TicketService {
 	}
 
 
-    // Method for cancellation of ticket
-    public void cancelTicket(Long id) {
+	// Method for cancellation of ticket
+	public void cancelTicket(Long id) {
 
-        Ticket ticket = ticketRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Ticket not found"));
-
-
-        if ("PENDING".equals(ticket.getStatus()) || ticket.getExpireDate().isAfter(LocalDateTime.now())) {
-
-            Payment payment = ticket.getPayment();
-            if (payment == null) {
-                throw new RuntimeException("Payment information not found, ticket might be expired for the ticket.");
-            }
-
-            User user = userRepository.findByEmail(payment.getCustomerEmail()).orElse(null);
-
-            // Calculate the credit value
-            int creditValue = (user != null && user.getEmail().equalsIgnoreCase(payment.getCustomerEmail())) 
-                    ? 1000 
-                    : 850; 
-
-            // Update user's credit if the user exists
-            if (user != null) {
-                if(user.getCredit()==null){
-                    user.setCredit(0);
-                }
-                user.setCredit(user.getCredit() + creditValue);
-                userRepository.save(user); 
-            }
-
-            // Create and save the credit
-            Credit credit = new Credit();
-            credit.setCredit(creditValue);
-            credit.setExpireDate(LocalDateTime.now().plusYears(1));
-            credit.setTicket(ticket);
-            creditRepository.save(credit);
+			Ticket ticket = ticketRepository.findById(id)
+							.orElseThrow(() -> new RuntimeException("Ticket not found"));
 
 
-            ticket.setStatus("CANCELED");
-            ticketRepository.save(ticket);
+			if ("PENDING".equals(ticket.getStatus()) || ticket.getExpireDate().isAfter(LocalDateTime.now())) {
 
-            //Send email to customer about ticket cancelation
-            String customerEmail = payment.getCustomerEmail();
-            String customerName = payment.getCustomerName();
-            emailService.sendTicketCancelEmail(customerEmail, credit, customerName);
+					Payment payment = ticket.getPayment();
+					if (payment == null) {
+							throw new RuntimeException("Payment information not found, ticket might be expired for the ticket.");
+					}
 
-            System.out.println("Ticket canceled successfully.");
-        } else {
+					User user = userRepository.findByEmail(payment.getCustomerEmail()).orElse(null);
 
-            throw new RuntimeException("Ticket cannot be canceled as it is not pending or has expired.");
-        }
-    }
+					// Calculate the credit value
+					int creditValue = (user != null && user.getEmail().equalsIgnoreCase(payment.getCustomerEmail())) 
+									? 1000 
+									: 850; 
+
+					// Update user's credit if the user exists
+					if (user != null) {
+							if(user.getCredit()==null){
+									user.setCredit(0);
+							}
+							user.setCredit(user.getCredit() + creditValue);
+							userRepository.save(user); 
+					}
+
+					// Create and save the credit
+					Credit credit = new Credit();
+					credit.setCredit(creditValue);
+					credit.setExpireDate(LocalDateTime.now().plusYears(1));
+					credit.setTicket(ticket);
+					creditRepository.save(credit);
+
+
+					ticket.setStatus("CANCELED");
+					ticketRepository.save(ticket);
+
+					//Send email to customer about ticket cancelation
+					String customerEmail = payment.getCustomerEmail();
+					String customerName = payment.getCustomerName();
+					emailService.sendTicketCancelEmail(customerEmail, credit, customerName);
+
+					System.out.println("Ticket canceled successfully.");
+			} else {
+
+					throw new RuntimeException("Ticket cannot be canceled as it is not pending or has expired.");
+			}
+	}
+
+	public Ticket getTicketById(Long ticketId) {
+		return ticketRepository.findById(ticketId)
+						.orElseThrow(() -> new RuntimeException("Ticket not found with ID: " + ticketId));
+	}	
 }
