@@ -1,6 +1,8 @@
 package com.example.Acmeplex.controllers;
 
 import java.util.List;
+
+import com.example.Acmeplex.entities.TheaterSeat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -43,6 +45,11 @@ public class ShowController {
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
+    }
+
+    @PostMapping("/seat-distribution")
+    public List<TheaterSeat> seatDistribution(@RequestParam Long theatreId, @RequestParam Long showtimeId) {
+        return showService.seatDistribution(theatreId, showtimeId);
     }
 
 }

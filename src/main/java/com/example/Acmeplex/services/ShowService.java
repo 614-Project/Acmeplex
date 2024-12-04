@@ -82,6 +82,11 @@ public class ShowService {
         return "Show has been added Successfully";
     }
 
+    public List<TheaterSeat> seatDistribution(Long theatreId, Long showtimeId) {
+        List<TheaterSeat> theaterSeats = showSeatRepository.fetchSeatDistributionForShowtime(theatreId, showtimeId);
+        return theaterSeats;
+    }
+
     // this method associates seats with a show by creating showseat entities for each seat
     @Transactional
     public String associateShowSeats(ShowSeatRequest showSeatRequest) throws ShowDoesNotExist {
@@ -103,6 +108,7 @@ public class ShowService {
         for (TheaterSeat theaterSeat : theaterSeatList) {
             ShowSeat showSeat = new ShowSeat();
             showSeat.setSeatNo(theaterSeat.getSeatNo());
+            showSeat.setTheatreSeat(theaterSeat);
 
             showSeat.setShow(show);
             showSeat.setIsAvailable(Boolean.TRUE);

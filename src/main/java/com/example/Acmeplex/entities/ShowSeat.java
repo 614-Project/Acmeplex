@@ -1,7 +1,5 @@
 package com.example.Acmeplex.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.*;
@@ -22,6 +20,9 @@ public class ShowSeat {
 
     private Boolean isAvailable;
 
+    @ManyToOne
+    @JoinColumn(name = "theatre_seat_fk", nullable = false)
+    private TheaterSeat theatreSeat;
 
     @ManyToOne
     @JoinColumn
