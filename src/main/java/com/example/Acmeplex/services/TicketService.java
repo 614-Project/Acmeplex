@@ -5,16 +5,11 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
+import com.example.Acmeplex.entities.*;
 import com.example.Acmeplex.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.example.Acmeplex.convertors.TicketConvertor;
-import com.example.Acmeplex.entities.Credit;
-import com.example.Acmeplex.entities.Payment;
-import com.example.Acmeplex.entities.Show;
-import com.example.Acmeplex.entities.ShowSeat;
-import com.example.Acmeplex.entities.Ticket;
-import com.example.Acmeplex.entities.User;
 import com.example.Acmeplex.exceptions.SeatsNotAvailable;
 import com.example.Acmeplex.exceptions.ShowDoesNotExist;
 import com.example.Acmeplex.request.TicketRequest;
@@ -51,6 +46,24 @@ public class TicketService {
 		}
 
 		Show show = showOpt.get();
+
+		// retrieves list of theatre and showseats
+		List<TheaterSeat> theaterSeatList = theater.getTheaterSeatList();
+
+		List<ShowSeat> showSeatList = showSeatRepository.findByShowShowId(show.getShowId());
+
+		// for each seat in the theatre create a corresponding showseat and updates showseat
+		for (TheaterSeat theaterSeat : theaterSeatList) {
+			ShowSeat showSeat = new ShowSeat();
+			showSeat.setSeatNo(theaterSeat.getSeatNo());
+			showSeat.setTheatreSeat(theaterSeat);
+
+			showSeat.setShow(show);
+			showSeat.setIsAvailable(Boolean.TRUE);
+			// showSeat.setIsFoodContains(Boolean.FALSE);
+
+			showSeatList.add(showSeat);
+		}
 
 		List<ShowSeat> showSeatList = showSeatRepository.findByShowShowId(show.getShowId());
 

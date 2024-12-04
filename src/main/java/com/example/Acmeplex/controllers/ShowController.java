@@ -3,6 +3,7 @@ package com.example.Acmeplex.controllers;
 import java.util.List;
 
 import com.example.Acmeplex.entities.TheaterSeat;
+import com.example.Acmeplex.response.TheatreSeatStatusDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -47,8 +48,8 @@ public class ShowController {
         }
     }
 
-    @PostMapping("/seat-distribution")
-    public List<TheaterSeat> seatDistribution(@RequestParam Long theatreId, @RequestParam Long showtimeId) {
+    @GetMapping("/seat-distribution")
+    public List<TheatreSeatStatusDTO> seatDistribution(@RequestParam Long theatreId, @RequestParam Long showtimeId) {
         return showService.seatDistribution(theatreId, showtimeId);
     }
 

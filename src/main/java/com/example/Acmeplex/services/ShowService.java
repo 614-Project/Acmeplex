@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.example.Acmeplex.repositories.ShowSeatRepository;
+import com.example.Acmeplex.response.TheatreSeatStatusDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.example.Acmeplex.convertors.ShowConvertor;
@@ -82,8 +83,8 @@ public class ShowService {
         return "Show has been added Successfully";
     }
 
-    public List<TheaterSeat> seatDistribution(Long theatreId, Long showtimeId) {
-        List<TheaterSeat> theaterSeats = showSeatRepository.fetchSeatDistributionForShowtime(theatreId, showtimeId);
+    public List<TheatreSeatStatusDTO> seatDistribution(Long theatreId, Long showtimeId) {
+        List<TheatreSeatStatusDTO> theaterSeats = showSeatRepository.fetchSeatDistributionForShowtime(theatreId, showtimeId);
         return theaterSeats;
     }
 
